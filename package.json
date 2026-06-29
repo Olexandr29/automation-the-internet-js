@@ -1,0 +1,24 @@
+{
+  "name": "automation-the-internet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/*.js --timeout 21000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Olexandr29/automation-the-internet-js.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Olexandr29/automation-the-internet-js/issues"
+  },
+  "homepage": "https://github.com/Olexandr29/automation-the-internet-js#readme",
+  "devDependencies": {
+    "mocha": "^11.7.6",
+    "selenium-webdriver": "^4.45.0"
+  }
+}
