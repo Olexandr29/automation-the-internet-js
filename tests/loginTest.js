@@ -4,6 +4,25 @@ const LoginPage = require("../pages/loginPage");
 const SecurePage = require("../pages/securePage");
 const LoginData = require("../testData/loginData");
 const assert = require('assert');
+const loginTestData = [
+    [ "TC2 - Unsuccessful login with empty credentials", "", "", LoginData.expectedAlertUsernameMsg ],
+    [ "TC3 - Unsuccessful login with empty Password", LoginData.validUsername, "", LoginData.expectedAlertPasswordMsg ],
+    [ "TC4 - Unsuccessful login with empty Username", "", LoginData.validPassword, LoginData.expectedAlertUsernameMsg ],
+    [ "TC5 - Unsuccessful login with invalid Password", LoginData.validUsername, LoginData.invalidPassword, LoginData.expectedAlertPasswordMsg ],
+    [ "TC6 - Unsuccessful login with invalid Username", LoginData.invalidUsername, LoginData.validPassword, LoginData.expectedAlertUsernameMsg ],
+    [ "TC7 - Unsuccessful login with both Invalid Username and Password", LoginData.invalidUsername, LoginData.invalidPassword, LoginData.expectedAlertUsernameMsg ],
+    [ "TC10 - Login with Username that has leading spaces", " " + LoginData.validUsername, LoginData.validPassword, LoginData.expectedAlertUsernameMsg ],
+    [ "TC11 - Login with a Password that has leading spaces", LoginData.validUsername, " " + LoginData.validPassword, LoginData.expectedAlertPasswordMsg ],
+    [ "TC12 - Login with a Username that has trailing spaces", LoginData.validUsername + " ", LoginData.validPassword, LoginData.expectedAlertUsernameMsg ],
+    [ "TC13 - Login with a Password that has trailing spaces", LoginData.validUsername, LoginData.validPassword + " ", LoginData.expectedAlertPasswordMsg ],
+    [ "TC14 - Login with a Username that has a different case", LoginData.validUsername.toUpperCase(), LoginData.validPassword, LoginData.expectedAlertUsernameMsg ],
+    [ "TC15 - Login with a Password that has a different case", LoginData.validUsername, LoginData.validPassword.toUpperCase(), LoginData.expectedAlertPasswordMsg ],
+    [ "TC16 - Login with SQL Injection in Username", LoginData.sqlInjection, LoginData.invalidPassword, LoginData.expectedAlertUsernameMsg ],
+    [ "TC17 - Login with SQL Injection in Password", LoginData.validUsername, LoginData.sqlInjection, LoginData.expectedAlertPasswordMsg ],
+    [ "TC18 - Login with XSS in Username", LoginData.xssInjection, LoginData.invalidPassword, LoginData.expectedAlertUsernameMsg ],
+    [ "TC19 - Login with XSS in Password",LoginData.validUsername, LoginData.xssInjection,LoginData.expectedAlertPasswordMsg ]
+];
+
 
 describe("Login Test suit", function() {
 let driver;
@@ -30,10 +49,12 @@ let homePage, loginPage, securePage;
         assert.strictEqual(await securePage.isLogoutBtnDisplayed(), true, "the logout button is not displayed");
     });
 
-    it("TC2 – Unsuccessful login with empty credentials", async function(){
-        const actualAlertMessage = await loginPage.unsuccessfulLogin("", "");
-        assert(actualAlertMessage.includes(LoginData.expectedAlertUsernameMsg), `the alert message is wrong, and looks like ${actualAlertMessage}`)
-        assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `user should be on Login page but now on ${await driver.getCurrentUrl()}`)
+    loginTestData.forEach(function([testName, userName, pas, expectedMsg]) {
+        it(testName, async function() {
+            const actualAlertMessage = await loginPage.unsuccessfulLogin(userName, pas);
+            assert(actualAlertMessage.includes(expectedMsg));
+            assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `user should be on Login page but now on ${await driver.getCurrentUrl()}`)
+        })
     })
 
 

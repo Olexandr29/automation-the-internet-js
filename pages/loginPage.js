@@ -27,9 +27,11 @@ class LoginPage{
     }
 
     async unsuccessfulLogin(name, pas) {
-        const uernameEl = await this.driver.findElement(this.locators.username);
+        const usernameEl = await this.driver.findElement(this.locators.username);
         const passwordEl = await this.driver.findElement(this.locators.password);
         const loginBtnEl = await this.driver.findElement(this.locators.loginBtn);
+        await usernameEl.sendKeys(name);
+        await passwordEl.sendKeys(pas);
         await loginBtnEl.click();
         const alertEl = await this.driver.wait(until.elementLocated(this.locators.alert), 3000);
         const alertText = await alertEl.getText();
