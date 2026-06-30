@@ -55,7 +55,32 @@ let homePage, loginPage, securePage;
             assert(actualAlertMessage.includes(expectedMsg));
             assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `user should be on Login page but now on ${await driver.getCurrentUrl()}`)
         })
-    })
+    });
 
+    it("TC8 - Logout", async function() {
+        securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
+        loginPage = await securePage.logout();
+        assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `User should be redirected to the Login page, but now on ${await driver.getCurrentUrl()}`);
+        actualAlertMessage = await loginPage.getLogoutAlert();
+        assert(actualAlertMessage.includes(LoginData.expectedLogoutMsg), `the alert message is wrong, but should be ${actualAlertMessage}`);
+        assert.strictEqual(await loginPage.isLoginBtnDisplayed(), true, "The login button is not displayed");
+    });
+
+    it("TC9 - User cannot access the Secure Area after logout", async function(){
+        securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
+        loginPage = await securePage.logout();
+        assert(await loginPage.isLoginBtnDisplayed, true, "the login button should be displaye");
+        await driver.navigate().back();
+        await driver.navigate().refresh();
+        const actualRes = await loginPage.getAlertAfterLogoutAndNavBack();
+        assert(actualRes.includes(LoginData.expectedLoginLogoutMsg), `User should not be able to access the Secure Area and should got the message - ${LoginData.expectedLoginLogoutMsg} but got - ${actualRes}` );
+        assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `User should remains on the Login page but now on ${await driver.getCurrentUrl()}`);
+        assert.strictEqual(await loginPage.isLoginBtnDisplayed(), true, "The Login button should be displayed")
+    });
+
+    it("TC20 - Password is masked", async function() {
+        assert.strictEqual(await loginPage.isPasHidden(), true, "Password characters should be hidden");
+        assert.strictEqual(await loginPage.isHiddenValueSaved(LoginData.invalidPassword), true, "The saved value should be equal to entered one");
+    });
 
 })

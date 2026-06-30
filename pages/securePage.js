@@ -1,4 +1,4 @@
-const {By} = require('selenium-webdriver')
+const {By, until} = require('selenium-webdriver')
 
 class SecurePage{
     constructor(driver) {
@@ -35,6 +35,14 @@ class SecurePage{
             }
         }   
         return false;
+    }
+
+    async logout() {
+        const LoginPage = require('../pages/loginPage')
+        const logoutBtnEl = await this.driver.findElement(this.locators.logoutBtn);
+        await logoutBtnEl.click();
+        await this.driver.wait(until.urlContains("/login"), 5000)
+        return new LoginPage(this.driver);
     }
 
 

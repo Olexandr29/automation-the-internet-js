@@ -10,7 +10,7 @@ const LoginData = {
     welcomeMessage : "Welcome to the Secure Area. When you are done click logout below.",
     expectedAlertUsernameMsg : "Your username is invalid!",
     expectedAlertPasswordMsg : "Your password is invalid!",
-    expectedLogoutMsg : "You logged out of the secure area!"
-
+    expectedLogoutMsg : "You logged out of the secure area!",
+    expectedLoginLogoutMsg : "You must login to view the secure area!"
 }
 module.exports = LoginData

@@ -9,7 +9,8 @@ class LoginPage{
             username : By.id("username"),
             password : By.id("password"),
             loginBtn : By.className("radius"),
-            alert : By.className("flash error")
+            alert : By.className("flash error"),
+            logoutAlert: By.className("flash success")
         }
     }
 
@@ -37,5 +38,50 @@ class LoginPage{
         const alertText = await alertEl.getText();
         return alertText;
     }
+
+    async isLoginBtnDisplayed() {
+        const buttons = await this.driver.findElements(this.locators.loginBtn);
+        if (buttons.length == 0) {
+            return false;
+        }
+        for (let i = 0; i < buttons.length; i++){
+            const result = await buttons[i].isDisplayed();
+            if (result == true) {
+                return true;
+            }
+        }   
+        return false;
+    }
+
+    async getLogoutAlert() {
+        const logoutAlertEl = await this.driver.findElement(this.locators.logoutAlert);
+        const logoutAlertTxt = await logoutAlertEl.getText()
+        return logoutAlertTxt;
+    }
+
+    async getAlertAfterLogoutAndNavBack() {
+        const alertEl = await this.driver.findElement(this.locators.alert);
+        const alertTxt = await alertEl.getText();
+        return alertTxt; 
+    }
+
+    async isPasHidden() {
+        const passwordEl = await this.driver.findElement(this.locators.password);
+        const actualType = await passwordEl.getAttribute("type");
+        console.log(`The password input type is '${actualType}'`);
+        return actualType == "password";
+    }
+
+    async isHiddenValueSaved(pas) {
+        const passwordEl = await this.driver.findElement(this.locators.password);
+        await passwordEl.sendKeys(pas);
+        const savedValue = await passwordEl.getAttribute("value");
+        console.log(`The filled in value was '${pas}' and saved value is '${savedValue}'`);
+        return savedValue == pas;
+    }
+
+
+
+
 }
 module.exports = LoginPage
