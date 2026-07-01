@@ -23,7 +23,7 @@ jobs:
 
       - name: Run tests with Mocha + Allure
         run: |
-          npx mocha "tests/*.js" --reporter allure-mocha --reporter-options output=allure-results
+          npx mocha "tests/*.js" --reporter allure-mocha --reporter-options "output=allure-results"
 
       - name: Upload Allure Results
         if: always()
