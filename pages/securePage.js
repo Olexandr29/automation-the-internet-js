@@ -1,8 +1,9 @@
 const {By, until} = require('selenium-webdriver')
+const BasePage = require("../pages/basePage");
 
-class SecurePage{
+class SecurePage extends BasePage {
     constructor(driver) {
-        this.driver = driver
+        super(driver);
         this.URL = "https://the-internet.herokuapp.com/secure";
         this.locators = {
             alert : By.id("flash"),
@@ -12,43 +13,24 @@ class SecurePage{
     }
 
     async getAlertMessage(){
-        const alertMsgEl = await this.driver.findElement(this.locators.alert);
-        const textMsg = await alertMsgEl.getText();
-        return textMsg
+        return await this.getText(this.locators.alert);
     }
 
     async getWelcomeMessage(){
-        const alertMsgEl = await this.driver.findElement(this.locators.welcomeMsg);
-        const textMsg = await alertMsgEl.getText();
-        return textMsg
+        return await this.getText(this.locators.welcomeMsg);
     }
 
     async isLogoutBtnDisplayed(){
-        const buttons = await this.driver.findElements(this.locators.logoutBtn);
-        if (buttons.length == 0) {
-            return false;
-        }
-        for (let i = 0; i < buttons.length; i++){
-            const result = await buttons[i].isDisplayed();
-            if (result == true) {
-                return true;
-            }
-        }   
-        return false;
+        return await this.isBtnDisplayed(this.locators.logoutBtn);
     }
 
     async logout() {
         const LoginPage = require('../pages/loginPage')
-        const logoutBtnEl = await this.driver.findElement(this.locators.logoutBtn);
-        await logoutBtnEl.click();
-        await this.driver.wait(until.urlContains("/login"), 5000)
+        await this.click(this.locators.logoutBtn);
+        await this.waitForUrlContains("/login");
         return new LoginPage(this.driver);
     }
 
 
-
-
-
-    
 }
 module.exports = SecurePage
