@@ -49,15 +49,7 @@ let homePage, loginPage, securePage;
         assert.strictEqual(await securePage.isLogoutBtnDisplayed(), true, "the logout button is not displayed");
     });
 
-    loginTestData.forEach(function([testName, userName, pas, expectedMsg]) {
-        it(testName, async function() {
-            const actualAlertMessage = await loginPage.unsuccessfulLogin(userName, pas);
-            assert(actualAlertMessage.includes(expectedMsg));
-            assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `user should be on Login page but now on ${await driver.getCurrentUrl()}`)
-        })
-    });
-
-    it("TC8 - Logout", async function() {
+     it("TC8 - Logout", async function() {
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
         loginPage = await securePage.logout();
         assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `User should be redirected to the Login page, but now on ${await driver.getCurrentUrl()}`);
@@ -83,4 +75,13 @@ let homePage, loginPage, securePage;
         assert.strictEqual(await loginPage.isHiddenValueSaved(LoginData.invalidPassword), true, "The saved value should be equal to entered one");
     });
 
+    loginTestData.forEach(function([testName, userName, pas, expectedMsg]) {
+        it(testName, async function() {
+            const actualAlertMessage = await loginPage.unsuccessfulLogin(userName, pas);
+            assert(actualAlertMessage.includes(expectedMsg));
+            assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `user should be on Login page but now on ${await driver.getCurrentUrl()}`)
+        })
+    });
+
+   
 })
