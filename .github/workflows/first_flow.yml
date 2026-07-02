@@ -13,9 +13,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: '20'
+          node-version: '24'
 
       - name: Install dependencies
         run: |
@@ -23,7 +23,7 @@ jobs:
 
       - name: Run tests with Mocha + Allure
         run: |
-          npx mocha "tests/*.js" --reporter allure-mocha --reporter-options "output=allure-results"
+          npm test
 
       - name: Upload Allure Results
         if: always()
@@ -31,3 +31,4 @@ jobs:
         with:
           name: allure-results
           path: allure-results
+      
