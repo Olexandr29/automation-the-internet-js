@@ -19,7 +19,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm сі
+          npm ci
 
       - name: Run tests with Mocha + Allure
         run: |
