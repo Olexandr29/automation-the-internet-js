@@ -8,6 +8,7 @@ class BasePage{
     }
 
     async find(locator) {
+        await this.driver.wait(until.elementLocated(locator), 5000);
         const element = await this.driver.findElement(locator);
         await this.driver.wait(until.elementIsVisible(element), 5000);
         return element;
