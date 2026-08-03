@@ -47,7 +47,7 @@ let homePage, loginPage, securePage;
         console.log(`==========-========== The '${this.currentTest.title}' => ${this.currentTest.state} ==========-==========`)
     });
 
-    it.only("TC1 - Successful login", async function(){
+    it("TC1 - Successful login", async function(){
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
         assert.strictEqual(await driver.getCurrentUrl(), securePage.URL, `The user is not redirected to the Secure Page and the current URL is ${await driver.getCurrentUrl()}`);
         const actualAlertMessage = await securePage.getAlertMessage();
