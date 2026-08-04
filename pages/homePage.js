@@ -19,7 +19,7 @@ class HomePage extends BasePage {
         return new LoginPage(this.driver);
     }
 
-    async openDropdwonPage() {
+    async openDropdownPage() {
         await this.click(this.locators.dropdownPageLink);
         return new DropdownPage(this.driver)
     }

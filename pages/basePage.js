@@ -46,5 +46,10 @@ class BasePage{
         await this.wait(until.urlContains(path), 5000);
     }
 
+    async pressKey(locator, specificKey) {
+        const element = await this.find(locator);
+        await element.sendKeys(specificKey);
+    }
+
 }
 module.exports = BasePage
