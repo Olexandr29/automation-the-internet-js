@@ -3,10 +3,12 @@ const LoginPage = require("../pages/loginPage");
 const BasePage = require('../pages/basePage');
 const DropdownPage = require('../pages/dropdownPage');
 
+
 class HomePage extends BasePage {
+    static URL = "https://the-internet.herokuapp.com/";
+
     constructor(driver){
         super(driver);
-        this.URL = "https://the-internet.herokuapp.com/";
         this.locators = {
         loginPageLink : By.linkText("Form Authentication"),
         dropdownPageLink: By.linkText("Dropdown")
@@ -22,6 +24,10 @@ class HomePage extends BasePage {
     async openDropdownPage() {
         await this.click(this.locators.dropdownPageLink);
         return new DropdownPage(this.driver)
+    }
+
+    async isDropdownLinkVisible() {
+        return await this.isBtnDisplayed(this.locators.dropdownPageLink);
     }
 
 }

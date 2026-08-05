@@ -1,6 +1,6 @@
 const { Builder } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const BASE_URL = "https://the-internet.herokuapp.com/";
+
 async function createDriver() {
     const options = new chrome.Options();
 
@@ -13,7 +13,7 @@ async function createDriver() {
     .forBrowser("chrome")
     .setChromeOptions(options)
     .build();
-    await driver.get(BASE_URL);
+    await driver.get( "https://the-internet.herokuapp.com/");
     return driver;
     }
 
