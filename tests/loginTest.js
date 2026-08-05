@@ -1,10 +1,9 @@
-const {Builder} = require("selenium-webdriver");
 const HomePage = require("../pages/homePage");
 const LoginPage = require("../pages/loginPage");
 const SecurePage = require("../pages/securePage");
 const LoginData = require("../testData/loginData");
 const assert = require('assert');
-const chrome = require('selenium-webdriver/chrome');
+const { createDriver, closeDriver } = require('../tests/testSetup');
 const loginTestData = [
     [ "TC2 - Unsuccessful login with empty credentials", "", "", LoginData.expectedAlertUsernameMsg ],
     [ "TC3 - Unsuccessful login with empty Password", LoginData.validUsername, "", LoginData.expectedAlertPasswordMsg ],
@@ -30,24 +29,16 @@ let driver;
 let homePage, loginPage, securePage;
 
     beforeEach(async function() {
-    const options = new chrome.Options();
-    if(process.env.GITHUB_ACTIONS === "true") {
-    options.addArguments("--headless=new");
-    options.addArguments("--no-sandbox");
-    options.addArguments("--disable-dev-shm-usage");
-    }
-    driver = await new Builder().forBrowser("chrome").setChromeOptions(options).build();
-    await driver.get("https://the-internet.herokuapp.com/");
+    driver = await createDriver();
     homePage = new HomePage(driver);
     loginPage = await homePage.openLoginPage();
     });
 
     afterEach(async function() {
-        await driver.quit();
-        console.log(`==========-========== The '${this.currentTest.title}' => ${this.currentTest.state} ==========-==========`)
+        await closeDriver(driver,this.currentTest);
     });
 
-    it.only("TC1 - Successful login", async function(){
+    it("TC1 - Successful login", async function(){
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
         assert.strictEqual(await driver.getCurrentUrl(), securePage.URL, `The user is not redirected to the Secure Page and the current URL is ${await driver.getCurrentUrl()}`);
         const actualAlertMessage = await securePage.getAlertMessage();

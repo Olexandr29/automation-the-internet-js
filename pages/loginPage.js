@@ -10,8 +10,8 @@ class LoginPage extends BasePage {
             username : By.id("username"),
             password : By.id("password"),
             loginBtn : By.className("radius"),
-            alert : By.className("flash error"),
-            logoutAlert: By.className("flash success")
+            alert : By.css(".flash.error"),
+            logoutAlert: By.css(".flash.success")
         }
     }
 
