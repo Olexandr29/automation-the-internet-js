@@ -1,9 +1,28 @@
-const { WebDriver, until } = require("selenium-webdriver")
+const { until, Key } = require("selenium-webdriver");
+const Reporter = require("../utils/reporter");
+const getKeyName = key =>
+    Object.keys(Key).find(name => Key[name] === key) ?? key;
+
+// function getKeyName(key) {
+
+//     const keyNames = Object.keys(Key);
+
+//     const result = keyNames.find(function(name) {
+//         return Key[name] === key;
+//     });
+
+//     if (result === undefined || result === null) {
+//         return key;
+//     }
+
+//     return result;
+// }
 
 class BasePage{
     constructor(driver) {
         this.driver = driver;
-        this.wait = (condition, timeout = 5000) => this.driver.wait(condition, timeout);
+        this.wait = (condition, timeout = 5000) => 
+            this.driver.wait(condition, timeout);
 
     }
 
@@ -47,9 +66,13 @@ class BasePage{
     }
 
     async pressKey(locator, specificKey) {
+        await Reporter.step(`Press ${getKeyName(specificKey)} key`, async () => {
+
         const element = await this.find(locator);
         await element.sendKeys(specificKey);
+        });
     }
+    
 
 }
 module.exports = BasePage

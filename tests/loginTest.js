@@ -4,6 +4,8 @@ const SecurePage = require("../pages/securePage");
 const LoginData = require("../testData/loginData");
 const assert = require('assert');
 const { createDriver, closeDriver } = require('../tests/testSetup');
+const Reporter = require("../utils/reporter");
+const { allure } = require("allure-mocha/runtime");
 const loginTestData = [
     [ "TC2 - Unsuccessful login with empty credentials", "", "", LoginData.expectedAlertUsernameMsg ],
     [ "TC3 - Unsuccessful login with empty Password", LoginData.validUsername, "", LoginData.expectedAlertPasswordMsg ],
@@ -29,9 +31,16 @@ let driver;
 let homePage, loginPage, securePage;
 
     beforeEach(async function() {
+    await allure.feature("Login");
+        
     driver = await createDriver();
+    await Reporter.step("Open Home page", async () => {
     homePage = new HomePage(driver);
+    });
+    await Reporter.step("Open Login page", async () => {
     loginPage = await homePage.openLoginPage();
+    });
+
     });
 
     afterEach(async function() {
@@ -61,8 +70,12 @@ let homePage, loginPage, securePage;
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
         loginPage = await securePage.logout();
         assert(await loginPage.isLoginBtnDisplayed, true, "the login button should be displaye");
+        await Reporter.step("Navigate Back", async () => {
         await driver.navigate().back();
+        });
+        await Reporter.step("Refresh the page", async () => {
         await driver.navigate().refresh();
+        });
         const actualRes = await loginPage.getAlertAfterLogoutAndNavBack();
         assert(actualRes.includes(LoginData.expectedLoginLogoutMsg), `User should not be able to access the Secure Area and should got the message - ${LoginData.expectedLoginLogoutMsg} but got - ${actualRes}` );
         assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `User should remains on the Login page but now on ${await driver.getCurrentUrl()}`);
@@ -76,6 +89,8 @@ let homePage, loginPage, securePage;
 
     loginTestData.forEach(function([testName, userName, pas, expectedMsg]) {
         it(testName, async function() {
+            await allure.parameter("Username", userName || "<empty>");
+            await allure.parameter("Password", pas ? "<hidden>" : "<empty>");
             const actualAlertMessage = await loginPage.unsuccessfulLogin(userName, pas);
             assert(actualAlertMessage.includes(expectedMsg));
             assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `user should be on Login page but now on ${await driver.getCurrentUrl()}`)

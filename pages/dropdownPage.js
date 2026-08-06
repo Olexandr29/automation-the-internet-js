@@ -1,5 +1,6 @@
 const BasePage = require("../pages/basePage");
-const {By, until, Key} = require('selenium-webdriver');
+const {By, Key} = require('selenium-webdriver');
+const Reporter = require("../utils/reporter");
 
 class DropdownPage extends BasePage {
     constructor(driver) {
@@ -27,6 +28,10 @@ class DropdownPage extends BasePage {
         }
     }
 
+    async openDropdown() {
+        return await this.click(this.locators.dropdownLocator);
+    }
+
     async getAllOptions() {
         const optionsText = [];
         const optionsEllements = await this.driver.findElements(this.locators.optionsLocator);
@@ -37,14 +42,17 @@ class DropdownPage extends BasePage {
     }
 
     async selectOption(specificOption) {
+        await Reporter.step(`Select "${specificOption}" from dropdown`, async () => {
+
         const optionsEllements = await this.driver.findElements(this.locators.optionsLocator);
         for (let option of optionsEllements ) {
-            if (await option.getText() == specificOption) {
+            if ((await option.getText()) === specificOption) {
                 await option.click();
                 return 
             } 
         }
         throw new Error(`The option "${specificOption}" was not found`);
+        });
     }
 
     async openDropdownByPressEnter() {
@@ -56,6 +64,8 @@ class DropdownPage extends BasePage {
     }
 
     async makeDropdownFocused() {
+        await Reporter.step("Focus dropdown", async () => {
+
         const actions = this.driver.actions({async : true});
         const dropdown = await this.find(this.locators.dropdownLocator);
         const dropdownId = await dropdown.getId();
@@ -66,6 +76,7 @@ class DropdownPage extends BasePage {
             }
             await actions.sendKeys(Key.TAB).perform();
         }
+        });
     }
 
     async isDropdownFocused() {
