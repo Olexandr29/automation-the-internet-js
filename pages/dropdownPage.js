@@ -28,6 +28,10 @@ class DropdownPage extends BasePage {
         }
     }
 
+    async openDropdown() {
+        return await this.click(this.locators.dropdownLocator);
+    }
+
     async getAllOptions() {
         const optionsText = [];
         const optionsEllements = await this.driver.findElements(this.locators.optionsLocator);

@@ -6,7 +6,7 @@ if(process.env.ALLURE === "true") {
 }
 
 class Reporter {
-    static async step(name, action) {
+    static async step(name, action = async () => {}) {
         Logger.info(name);
         if(!step) {
             return await action();
