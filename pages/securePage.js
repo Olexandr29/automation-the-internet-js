@@ -1,5 +1,7 @@
 const {By, until} = require('selenium-webdriver')
 const BasePage = require("../pages/basePage");
+const Reporter = require("../utils/reporter");
+const {allure} = require('allure-mocha/runtime');
 
 class SecurePage extends BasePage {
     constructor(driver) {
@@ -26,7 +28,9 @@ class SecurePage extends BasePage {
 
     async logout() {
         const LoginPage = require('../pages/loginPage')
+        await Reporter.step("Click the Logout button", async () => {
         await this.click(this.locators.logoutBtn);
+        });
         await this.waitForUrlContains("/login");
         return new LoginPage(this.driver);
     }

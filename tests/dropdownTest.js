@@ -7,7 +7,7 @@ const Reporter = require("../utils/reporter");
 const { allure } = require("allure-mocha/runtime");
 
 
-describe.only("Dropdown test suite", function() {
+describe("Dropdown test suite", function() {
 let driver;
 let homePage, dropdownPage;
 
