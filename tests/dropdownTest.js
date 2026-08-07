@@ -7,7 +7,7 @@ const Reporter = require("../utils/reporter");
 const { allure } = require("allure-mocha/runtime");
 
 
-describe("Dropdown test suite", function() {
+describe("[Regression] Dropdown test suite", function() {
 let driver;
 let homePage, dropdownPage;
 
@@ -27,12 +27,12 @@ let homePage, dropdownPage;
         await closeDriver(driver, this.currentTest);
     });
 
-    it("TC21 - Verify default state", async function() {
+    it("[Smoke] TC21 - Verify default state", async function() {
         assert.strictEqual(await dropdownPage.isDropdownVisible(), true, "The dropdown is not visible.");
         assert.strictEqual( await dropdownPage.getSelectedDropdownText(), DropdownData.OPTION_DEFAULT, `The default selected value is not the '${DropdownData.OPTION_DEFAULT}'`);
     });
 
-    it("TC22 - Verify all available options are displayed", async function() {
+    it("[Smoke] TC22 - Verify all available options are displayed", async function() {
         await Reporter.step("Open Dropdown list with options", async () => {
             await dropdownPage.openDropdown(); 
         });
@@ -41,12 +41,12 @@ let homePage, dropdownPage;
         assert.deepStrictEqual(actualOptionsArr, expectedOptionsArr, `The displayed dropdown options don't match the expected list`);
     });
 
-    it("TC23 - Select Option 1 using mouse", async function() {
+    it("[Smoke] TC23 - Select Option 1 using mouse", async function() {
         await dropdownPage.selectOption(DropdownData.OPTION_1);
         assert.strictEqual(await dropdownPage.getSelectedDropdownText(), DropdownData.OPTION_1, `The ${DropdownData.OPTION_1} is not selected`);
     });
 
-    it("TC24 - Verify option remains selected after reopening and closing", async function() {
+    it("[Smoke] TC24 - Verify option remains selected after reopening and closing", async function() {
         await Reporter.step("Open Dropdown list with options")
 
         await dropdownPage.selectOption(DropdownData.OPTION_2);
@@ -111,7 +111,7 @@ let homePage, dropdownPage;
         assert.strictEqual(await dropdownPage.getSelectedDropdownText(), DropdownData.OPTION_2, `The selected value '${DropdownData.OPTION_2}' should not be changed`);
     });
 
-    it("TC28 - Verify only one option can be selected at a time", async function() {
+    it("[Smoke] TC28 - Verify only one option can be selected at a time", async function() {
         await dropdownPage.selectOption(DropdownData.OPTION_1);
         assert.strictEqual(await dropdownPage.getSelectedDropdownText(), DropdownData.OPTION_1, `The '${DropdownData.OPTION_1}' is not selected`);
         await dropdownPage.selectOption(DropdownData.OPTION_2);
