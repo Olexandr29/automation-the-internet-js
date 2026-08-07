@@ -26,7 +26,7 @@ const loginTestData = [
 ];
 
 
-describe("Login Test suit", function() {
+describe("[Regression] Login Test suit", function() {
 let driver;
 let homePage, loginPage, securePage;
 
@@ -47,7 +47,7 @@ let homePage, loginPage, securePage;
         await closeDriver(driver,this.currentTest);
     });
 
-    it("TC1 - Successful login", async function(){
+    it("[Smoke] TC1 - Successful login", async function(){
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
         assert.strictEqual(await driver.getCurrentUrl(), securePage.URL, `The user is not redirected to the Secure Page and the current URL is ${await driver.getCurrentUrl()}`);
         const actualAlertMessage = await securePage.getAlertMessage();
@@ -57,7 +57,7 @@ let homePage, loginPage, securePage;
         assert.strictEqual(await securePage.isLogoutBtnDisplayed(), true, "the logout button is not displayed");
     });
 
-     it("TC8 - Logout", async function() {
+     it("[Smoke] TC8 - Logout", async function() {
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
         loginPage = await securePage.logout();
         assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `User should be redirected to the Login page, but now on ${await driver.getCurrentUrl()}`);
@@ -66,7 +66,7 @@ let homePage, loginPage, securePage;
         assert.strictEqual(await loginPage.isLoginBtnDisplayed(), true, "The login button is not displayed");
     });
 
-    it("TC9 - User cannot access the Secure Area after logout", async function(){
+    it("[Smoke] TC9 - User cannot access the Secure Area after logout", async function(){
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
         loginPage = await securePage.logout();
         assert(await loginPage.isLoginBtnDisplayed, true, "the login button should be displaye");
