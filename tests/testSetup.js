@@ -22,6 +22,13 @@ async function createDriver() {
         await driver.quit();
         }
         console.log(`==========-========== The '${test.title}' => ${test.state} ==========-==========`)
+    
+
+    if (test.state == "failed" && test.err) {
+        console.error("ERROR:");
+        console.error(test.err);
+    }
+    
     };
 
     module.exports = {

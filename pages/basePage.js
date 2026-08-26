@@ -33,6 +33,14 @@ class BasePage{
         return element;
     }
 
+    async findElements(locator) {
+        await this.driver.wait(until.elementLocated(locator), 5000);
+        const elements = await this.driver.findElements(locator);
+        await this.driver.wait(until.elementIsVisible(elements), 5000);
+        return elements;
+    }
+    
+
     async click(locator) {
         const element = await this.find(locator);
         await element.click()

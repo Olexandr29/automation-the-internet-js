@@ -2,6 +2,7 @@ const { By } = require("selenium-webdriver");
 const LoginPage = require("../pages/loginPage");
 const BasePage = require('../pages/basePage');
 const DropdownPage = require('../pages/dropdownPage');
+const CheckboxPage = require('../pages/checkboxPage')
 
 
 class HomePage extends BasePage {
@@ -11,7 +12,8 @@ class HomePage extends BasePage {
         super(driver);
         this.locators = {
         loginPageLink : By.linkText("Form Authentication"),
-        dropdownPageLink: By.linkText("Dropdown")
+        dropdownPageLink: By.linkText("Dropdown"),
+        checkboxPageLink: By.linkText("Checkboxes")
         }
 
     }
@@ -28,6 +30,11 @@ class HomePage extends BasePage {
 
     async isDropdownLinkVisible() {
         return await this.isBtnDisplayed(this.locators.dropdownPageLink);
+    }
+
+    async openCheckboxPage() {
+        await this.click(this.locators.checkboxPageLink);
+        return new CheckboxPage(this.driver)
     }
 
 }
