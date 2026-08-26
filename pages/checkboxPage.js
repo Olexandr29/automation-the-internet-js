@@ -1,7 +1,6 @@
 const BasePage = require("./basePage");
-const { By, ActionChains, Key } = require('selenium-webdriver');
+const { By, Key } = require('selenium-webdriver');
 const Reporter = require('../utils/reporter');
-const {allure} = require('allure-mocha/runtime');
 
 class CheckboxPage extends BasePage{
     constructor(driver) {

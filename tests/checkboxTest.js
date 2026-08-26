@@ -1,12 +1,11 @@
 const HomePage = require('../pages/homePage');
-const CheckboxPage = require('../pages/checkboxPage');
 const { createDriver, closeDriver } = require('./testSetup');
 const assert = require('assert');
 const CheckboxData = require('../testData/checkboxData');
 const Reporter = require('../utils/reporter');
 const {allure} = require('allure-mocha/runtime');
 
-describe.only("[Regression] Checkbox test suite", function () {
+describe("[Regression] Checkbox test suite", function () {
     let driver;
     let homePage, checkboxPage;
 
