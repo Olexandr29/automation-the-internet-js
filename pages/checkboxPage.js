@@ -1,5 +1,7 @@
 const BasePage = require("./basePage");
 const { By, ActionChains, Key } = require('selenium-webdriver');
+const Reporter = require('../utils/reporter');
+const {allure} = require('allure-mocha/runtime');
 
 class CheckboxPage extends BasePage{
     constructor(driver) {
@@ -11,8 +13,10 @@ class CheckboxPage extends BasePage{
     }
 
     async isCheckboxVisible(checkboxNumber) {
+        return await Reporter.step(`Observe the Checkbox${checkboxNumber} is visible`, async () => {
         const checkboxes = await this.driver.findElements(this.locators.checkboxesLocator);
         return await checkboxes[checkboxNumber - 1].isDisplayed();
+        });
     }
 
     async isCheckboxChecked(checkboxNumber) {
@@ -21,11 +25,14 @@ class CheckboxPage extends BasePage{
     }
 
     async changeCheckboxState(checkboxNumber) {
+        return await Reporter.step(`Change Checkbox${checkboxNumber} state`, async () => {
         const checkboxes = await this.driver.findElements(this.locators.checkboxesLocator);
         return await checkboxes[checkboxNumber - 1].click();
+         });
     }
 
     async focusCheckbox(checkboxNumber) {
+        await Reporter.step(`Navigate to the Checkbox ${checkboxNumber} via Tab key`, async () => {
         const checkboxes = await this.driver.findElements(this.locators.checkboxesLocator);
         const targetCheckbox = checkboxes[checkboxNumber - 1];
         const targetCheckboxId = await targetCheckbox.getId();
@@ -38,10 +45,14 @@ class CheckboxPage extends BasePage{
             }
         }
         throw new Error(`Checkbox ${checkboxNumber} could not be focused using Tab`);
-    }
+        }
+    );
+}
 
     async changeCheckboxStateBySpaceKey() {
+        return await Reporter.step(`Change state via Space key`, async () => {
         await this.driver.actions().sendKeys(Key.SPACE).perform();
+        });
     }
 
 
