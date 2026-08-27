@@ -2,8 +2,18 @@ name: Run JS tests on Linux
 
 on: 
   push:
-  workflow_dispatch:
+    branches:
+      main
 
+  pull_request:
+    branches:
+      main
+
+  workflow_dispatch:
+  
+  schedule:
+   - cron: '30 5 * * 1'
+    
 permissions:
   contents: read
   pages: write
