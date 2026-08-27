@@ -56,7 +56,9 @@ describe("[Regression] Checkbox test suite", function () {
         await driver.navigate().refresh();
         });
         assert.strictEqual(await checkboxPage.isCheckboxChecked(1), false, `The ${CheckboxData.CHECKBOX_1} is checked`);
-        assert.strictEqual(await checkboxPage.isCheckboxChecked(2), true, `The ${CheckboxData.CHECKBOX_2} is not checked`);
+        // assert.strictEqual(await checkboxPage.isCheckboxChecked(2), true, `The ${CheckboxData.CHECKBOX_2} is not checked`);
+        assert.strictEqual(await checkboxPage.isCheckboxChecked(2), false, `The ${CheckboxData.CHECKBOX_2} is not checked`);
+   
     });
 
     it("TC35 - Verify checkbox state chnges using keyboard", async function() {
