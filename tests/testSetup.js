@@ -1,6 +1,6 @@
 const { Builder } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const { allure } = require('allure-mocha/runtime')
+const { allure } = require ('allure-mocha/runtime');
 
 async function createDriver() {
     const options = new chrome.Options();
@@ -22,10 +22,10 @@ async function createDriver() {
         try {
         if(driver && test.state === "failed") {
             const img = await driver.takeScreenshot();
-            allure.attachment(
+            await allure.attachment(
                 "Failure screenshot",
                 Buffer.from(img, "base64"),
-                "img/png"
+                "image/png"
             );
         }
     } catch (e) {
