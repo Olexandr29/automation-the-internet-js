@@ -2,17 +2,7 @@ name: Run JS tests on Linux
 
 on: 
   push:
-    branches:
-      - main
-
-  pull_request:
-    branches:
-      - main
-
   workflow_dispatch:
-
-  schedule:
-    - cron: '30 5 * * 1'
 
 permissions:
   contents: read
@@ -74,3 +64,24 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: allure-report
+  
+  deploy:
+    needs: test
+    if: always()
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy Allure Report to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+
