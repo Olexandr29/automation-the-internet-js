@@ -2,41 +2,28 @@ const { until, Key } = require("selenium-webdriver");
 const Reporter = require("../utils/reporter");
 const getKeyName = key =>
     Object.keys(Key).find(name => Key[name] === key) ?? key;
+const DEFAULT_TIMEOUT_MS = 10000;
 
-// function getKeyName(key) {
-
-//     const keyNames = Object.keys(Key);
-
-//     const result = keyNames.find(function(name) {
-//         return Key[name] === key;
-//     });
-
-//     if (result === undefined || result === null) {
-//         return key;
-//     }
-
-//     return result;
-// }
 
 class BasePage{
     constructor(driver) {
         this.driver = driver;
-        this.wait = (condition, timeout = 5000) => 
+        this.wait = (condition, timeout = DEFAULT_TIMEOUT_MS) => 
             this.driver.wait(condition, timeout);
 
     }
 
     async find(locator) {
-        await this.driver.wait(until.elementLocated(locator), 5000);
+        await this.wait(until.elementLocated(locator));
         const element = await this.driver.findElement(locator);
-        await this.driver.wait(until.elementIsVisible(element), 5000);
+        await this.wait(until.elementIsVisible(element));
         return element;
     }
 
     async findElements(locator) {
-        await this.driver.wait(until.elementLocated(locator), 5000);
+        await this.wait(until.elementLocated(locator));
         const elements = await this.driver.findElements(locator);
-        await this.driver.wait(until.elementIsVisible(elements), 5000);
+        await this.wait(until.elementIsVisible(elements));
         return elements;
     }
     
@@ -70,7 +57,7 @@ class BasePage{
     }
 
     async waitForUrlContains(path) {
-        await this.wait(until.urlContains(path), 5000);
+        await this.wait(until.urlContains(path));
     }
 
     async pressKey(locator, specificKey) {

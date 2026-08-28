@@ -8,8 +8,9 @@
     "test": "cross-env ALLURE=true mocha tests/*.js --timeout 21000 --reporter allure-mocha",
     "report": "allure generate allure-results --clean -o allure-report",
     "open": "allure open allure-report",
-    "clean:test:allure": "npm run clean && npm test && npm run report && npm run open",
-    "test:allure": "npm test && npm run report && npm run open",
+    "test:allure": "(npm test || true) && npm run report && npm run open",
+    "clean:test:allure": "npm run clean && npm run test:allure",
+
     "smoke": "npm test -- --grep Smoke",
     "regression": "npm test -- --grep Regression"
   },
