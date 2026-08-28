@@ -1,6 +1,8 @@
 const { Builder } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
-const { allure } = require ('allure-mocha/runtime');
+const HomePage = require('../pages/homePage');
+const { allure } = require('allure-mocha/runtime');
+
 
 async function createDriver() {
     const options = new chrome.Options();
@@ -14,7 +16,7 @@ async function createDriver() {
     .forBrowser("chrome")
     .setChromeOptions(options)
     .build();
-    await driver.get( "https://the-internet.herokuapp.com/");
+    await driver.get(HomePage.URL);
     return driver;
     }
 
@@ -47,6 +49,6 @@ async function createDriver() {
     };
 
     module.exports = {
-        createDriver, closeDriver 
+        createDriver, closeDriver
     };
     

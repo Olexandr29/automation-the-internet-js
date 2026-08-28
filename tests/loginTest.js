@@ -1,6 +1,4 @@
 const HomePage = require("../pages/homePage");
-const LoginPage = require("../pages/loginPage");
-const SecurePage = require("../pages/securePage");
 const LoginData = require("../testData/loginData");
 const assert = require('assert');
 const { createDriver, closeDriver } = require('../tests/testSetup');

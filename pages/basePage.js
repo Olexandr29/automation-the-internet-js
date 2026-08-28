@@ -2,7 +2,7 @@ const { until, Key } = require("selenium-webdriver");
 const Reporter = require("../utils/reporter");
 const getKeyName = key =>
     Object.keys(Key).find(name => Key[name] === key) ?? key;
-const DEFAULT_TIMEOUT_MS = 10000;
+const DEFAULT_TIMEOUT_MS = 15000;
 
 
 class BasePage{

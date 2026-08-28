@@ -1,7 +1,6 @@
-const {By, until} = require('selenium-webdriver')
+const {By} = require('selenium-webdriver');
 const BasePage = require("../pages/basePage");
 const Reporter = require("../utils/reporter");
-const {allure} = require('allure-mocha/runtime');
 
 class SecurePage extends BasePage {
     constructor(driver) {
