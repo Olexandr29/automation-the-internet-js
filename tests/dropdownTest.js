@@ -1,10 +1,10 @@
 const HomePage = require('../pages/homePage');
 const DropdownPage = require('../pages/dropdownPage');
 const DropdownData = require('../testData/dropdownData');
-const assert = require('assert');
-const { createDriver, closeDriver } = require("../tests/testSetup");
-const Reporter = require("../utils/reporter");
-const { allure } = require("allure-mocha/runtime");
+// const assert = require('assert');
+const { createDriver, closeDriver, assert, allure, Reporter } = require("../tests/testSetup");
+// const Reporter = require("../utils/reporter");
+// const { allure } = require("allure-mocha/runtime");
 
 
 describe("[Regression] Dropdown test suite", function() {

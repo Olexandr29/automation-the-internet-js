@@ -2,6 +2,8 @@ const { Builder } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const HomePage = require('../pages/homePage');
 const { allure } = require('allure-mocha/runtime');
+const Reporter = require("../utils/reporter");
+const assert = require('assert');
 
 
 async function createDriver() {
@@ -49,6 +51,6 @@ async function createDriver() {
     };
 
     module.exports = {
-        createDriver, closeDriver
-    };
+createDriver, closeDriver, assert, allure, Reporter
+};
     

@@ -1,9 +1,9 @@
 const HomePage = require("../pages/homePage");
 const LoginData = require("../testData/loginData");
-const assert = require('assert');
-const { createDriver, closeDriver } = require('../tests/testSetup');
-const Reporter = require("../utils/reporter");
-const { allure } = require("allure-mocha/runtime");
+// const assert = require('assert');
+const { createDriver, closeDriver, assert, allure, Reporter } = require('../tests/testSetup');
+// const Reporter = require("../utils/reporter");
+// const { allure } = require("allure-mocha/runtime");
 const loginTestData = [
     [ "TC2 - Unsuccessful login with empty credentials", "", "", LoginData.expectedAlertUsernameMsg ],
     [ "TC3 - Unsuccessful login with empty Password", LoginData.validUsername, "", LoginData.expectedAlertPasswordMsg ],
