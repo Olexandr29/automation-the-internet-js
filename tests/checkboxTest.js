@@ -1,9 +1,9 @@
 const HomePage = require('../pages/homePage');
-const { createDriver, closeDriver, assert, allure, Reporter } = require('./testSetup');
-// const assert = require('assert');
+const { createDriver, closeDriver } = require('./testSetup');
+const assert = require('assert');
 const CheckboxData = require('../testData/checkboxData');
-// const Reporter = require('../utils/reporter');
-// const {allure} = require('allure-mocha/runtime');
+const Reporter = require('../utils/reporter');
+const {allure} = require('allure-mocha/runtime');
 
 describe("[Regression] Checkbox test suite", function () {
     let driver;
