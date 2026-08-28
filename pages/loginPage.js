@@ -21,7 +21,7 @@ class LoginPage extends BasePage {
         await Reporter.step("Fill in the Username field", async () => {
         await this.type(this.locators.username, name);
         });
-        await Reporter.step("Fill in the Password  field", async () => {
+        await Reporter.step("Fill in the Password field", async () => {
         await this.type(this.locators.password, pas);
         });
         await Reporter.step("Click the Login button", async () => {
