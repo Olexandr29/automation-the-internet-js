@@ -1,13 +1,11 @@
-const {By, until} = require('selenium-webdriver')
-const SecurePage = require('../pages/securePage')
+const {By} = require('selenium-webdriver');
+const SecurePage = require('../pages/securePage');
 const BasePage = require('../pages/basePage');
 const Reporter = require("../utils/reporter");
-const { allure } = require('allure-mocha/runtime');
 
 class LoginPage extends BasePage {
     constructor(driver) {
         super(driver);
-        this.URL = "https://the-internet.herokuapp.com/login"
         this.locators = {
             username : By.id("username"),
             password : By.id("password"),

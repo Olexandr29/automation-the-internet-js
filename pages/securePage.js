@@ -1,12 +1,10 @@
-const {By, until} = require('selenium-webdriver')
+const {By} = require('selenium-webdriver');
 const BasePage = require("../pages/basePage");
 const Reporter = require("../utils/reporter");
-const {allure} = require('allure-mocha/runtime');
 
 class SecurePage extends BasePage {
     constructor(driver) {
         super(driver);
-        this.URL = "https://the-internet.herokuapp.com/secure";
         this.locators = {
             alert : By.id("flash"),
             welcomeMsg : By.className("subheader"),
