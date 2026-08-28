@@ -7,7 +7,6 @@ const { allure } = require('allure-mocha/runtime');
 class LoginPage extends BasePage {
     constructor(driver) {
         super(driver);
-        this.URL = "https://the-internet.herokuapp.com/login"
         this.locators = {
             username : By.id("username"),
             password : By.id("password"),

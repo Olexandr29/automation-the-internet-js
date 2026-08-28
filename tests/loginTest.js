@@ -49,7 +49,7 @@ let homePage, loginPage, securePage;
 
     it("[Smoke] TC1 - Successful login", async function(){
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
-        assert.strictEqual(await driver.getCurrentUrl(), securePage.URL, `The user is not redirected to the Secure Page and the current URL is ${await driver.getCurrentUrl()}`);
+        assert.strictEqual(await driver.getCurrentUrl(), LoginData.securePageURL, `The user is not redirected to the Secure Page and the current URL is ${await driver.getCurrentUrl()}`);
         const actualAlertMessage = await securePage.getAlertMessage();
         assert(actualAlertMessage.includes(LoginData.successAlertMessage), `the alert message is wrong, and looks like that ${actualAlertMessage}`);
         const actualWelcomeMessage = await securePage.getWelcomeMessage();
@@ -60,7 +60,7 @@ let homePage, loginPage, securePage;
      it("[Smoke] TC8 - Logout", async function() {
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
         loginPage = await securePage.logout();
-        assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `User should be redirected to the Login page, but now on ${await driver.getCurrentUrl()}`);
+        assert.strictEqual(await driver.getCurrentUrl(), LoginData.loginPageURL, `User should be redirected to the Login page, but now on ${await driver.getCurrentUrl()}`);
         actualAlertMessage = await loginPage.getLogoutAlert();
         assert(actualAlertMessage.includes(LoginData.expectedLogoutMsg), `the alert message is wrong, but should be ${actualAlertMessage}`);
         assert.strictEqual(await loginPage.isLoginBtnDisplayed(), true, "The login button is not displayed");
@@ -78,7 +78,7 @@ let homePage, loginPage, securePage;
         });
         const actualRes = await loginPage.getAlertAfterLogoutAndNavBack();
         assert(actualRes.includes(LoginData.expectedLoginLogoutMsg), `User should not be able to access the Secure Area and should got the message - ${LoginData.expectedLoginLogoutMsg} but got - ${actualRes}` );
-        assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `User should remains on the Login page but now on ${await driver.getCurrentUrl()}`);
+        assert.strictEqual(await driver.getCurrentUrl(), LoginData.loginPageURL, `User should remains on the Login page but now on ${await driver.getCurrentUrl()}`);
         assert.strictEqual(await loginPage.isLoginBtnDisplayed(), true, "The Login button should be displayed")
     });
 
@@ -93,7 +93,7 @@ let homePage, loginPage, securePage;
             await allure.parameter("Password", pas ? "<hidden>" : "<empty>");
             const actualAlertMessage = await loginPage.unsuccessfulLogin(userName, pas);
             assert(actualAlertMessage.includes(expectedMsg));
-            assert.strictEqual(await driver.getCurrentUrl(), loginPage.URL, `user should be on Login page but now on ${await driver.getCurrentUrl()}`)
+            assert.strictEqual(await driver.getCurrentUrl(), LoginData.loginPageURL, `user should be on Login page but now on ${await driver.getCurrentUrl()}`)
         })
     });
 

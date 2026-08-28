@@ -11,6 +11,9 @@ const LoginData = {
     expectedAlertUsernameMsg : "Your username is invalid!",
     expectedAlertPasswordMsg : "Your password is invalid!",
     expectedLogoutMsg : "You logged out of the secure area!",
-    expectedLoginLogoutMsg : "You must login to view the secure area!"
+    expectedLoginLogoutMsg : "You must login to view the secure area!",
+    loginPageURL: "https://the-internet.herokuapp.com/login",
+    securePageURL: "https://the-internet.herokuapp.com/secure"
+
 }
 module.exports = LoginData
