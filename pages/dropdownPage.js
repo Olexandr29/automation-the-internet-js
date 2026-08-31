@@ -14,7 +14,7 @@ class DropdownPage extends BasePage {
 
 
     async isDropdownVisible() {
-        return await this.isBtnDisplayed(this.locators.dropdownLocator);
+        return await this.isElementDisplayed(this.locators.dropdownLocator);
     }
 
     async getSelectedDropdownText() {
@@ -65,24 +65,15 @@ class DropdownPage extends BasePage {
 
     async makeDropdownFocused() {
         await Reporter.step("Focus dropdown", async () => {
-
-        const actions = this.driver.actions({async : true});
         const dropdown = await this.find(this.locators.dropdownLocator);
-        const dropdownId = await dropdown.getId();
-        for (let i = 0; i < 10; i ++) {
-            const activeElement = await this.driver.switchTo().activeElement();
-            if ((await activeElement.getId()) === dropdownId) {
-            return
-            }
-            await actions.sendKeys(Key.TAB).perform();
-        }
+        const targetDropdown = dropdown;
+        await this.focusElementByTab(targetDropdown)
         });
     }
 
     async isDropdownFocused() {
-        const focused = await this.driver.switchTo().activeElement();
         const dropdown = await this.find(this.locators.dropdownLocator);
-        return ( (await focused.getId()) === (await dropdown.getId()) );
+        return this.isElementFocused(dropdown);
     }
 
     async pressArrowDown() {
@@ -92,11 +83,6 @@ class DropdownPage extends BasePage {
     async pressArrowUp() {
         await this.pressKey(this.locators.dropdownLocator, Key.ARROW_UP)
     }
-
-
-
-
-
 
 
 }

@@ -40,7 +40,7 @@ class LoginPage extends BasePage {
     }
 
     async isLoginBtnDisplayed() {
-        return await this.isBtnDisplayed(this.locators.loginBtn);
+        return await this.isElementDisplayed(this.locators.loginBtn);
     }
 
     async getLogoutAlert() {

@@ -5,7 +5,7 @@ const CheckboxData = require('../testData/checkboxData');
 const Reporter = require('../utils/reporter');
 const {allure} = require('allure-mocha/runtime');
 
-describe("[Regression] Checkbox test suite", function () {
+describe.only("[Regression] Checkbox test suite", function () {
     let driver;
     let homePage, checkboxPage;
 
@@ -62,9 +62,11 @@ describe("[Regression] Checkbox test suite", function () {
 
     it("TC35 - Verify checkbox state chnges using keyboard", async function() {
         await checkboxPage.focusCheckbox(1);
+        assert.strictEqual(await checkboxPage.isCheckboxFocused(1), true, `The checkbox 1 is not focused`);
         await checkboxPage.changeCheckboxStateBySpaceKey();
         assert.strictEqual(await checkboxPage.isCheckboxChecked(1), true, `The ${CheckboxData.CHECKBOX_1} is not checked`);
         await checkboxPage.focusCheckbox(2);
+        assert.strictEqual(await checkboxPage.isCheckboxFocused(2), true, `The checkbox 2 is not focused`);
         await checkboxPage.changeCheckboxStateBySpaceKey();
         assert.strictEqual(await checkboxPage.isCheckboxChecked(2), false, `The ${CheckboxData.CHECKBOX_2} is not unchecked`);
     });

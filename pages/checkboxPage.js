@@ -13,40 +13,34 @@ class CheckboxPage extends BasePage{
 
     async isCheckboxVisible(checkboxNumber) {
         return await Reporter.step(`Observe the Checkbox${checkboxNumber} is visible`, async () => {
-        const checkboxes = await this.driver.findElements(this.locators.checkboxesLocator);
-        return await checkboxes[checkboxNumber - 1].isDisplayed();
+        const checkbox = await this.findElementsByNumber(this.locators.checkboxesLocator, checkboxNumber);
+        return await checkbox.isDisplayed();
         });
     }
 
     async isCheckboxChecked(checkboxNumber) {
-        const checkboxes = await this.driver.findElements(this.locators.checkboxesLocator);
-        return await checkboxes[checkboxNumber - 1].isSelected();
+        const checkbox = await this.findElementsByNumber(this.locators.checkboxesLocator, checkboxNumber);
+        return await checkbox.isSelected();
     }
 
     async changeCheckboxState(checkboxNumber) {
         return await Reporter.step(`Change Checkbox${checkboxNumber} state`, async () => {
-        const checkboxes = await this.driver.findElements(this.locators.checkboxesLocator);
-        return await checkboxes[checkboxNumber - 1].click();
+        const checkbox = await this.findElementsByNumber(this.locators.checkboxesLocator, checkboxNumber);
+        return await checkbox.click();
          });
     }
 
     async focusCheckbox(checkboxNumber) {
         await Reporter.step(`Navigate to the Checkbox ${checkboxNumber} via Tab key`, async () => {
-        const checkboxes = await this.driver.findElements(this.locators.checkboxesLocator);
-        const targetCheckbox = checkboxes[checkboxNumber - 1];
-        const targetCheckboxId = await targetCheckbox.getId();
-        for (let i = 0; i < 10; i++) {
-            await this.driver.actions().sendKeys(Key.TAB).perform();
-            const activeElement = await this.driver.switchTo().activeElement();
-            const activeElementId = await activeElement.getId();           
-            if (await activeElementId === targetCheckboxId) {
-                return;
-            }
-        }
-        throw new Error(`Checkbox ${checkboxNumber} could not be focused using Tab`);
-        }
-    );
-}
+        const targetCheckbox = await this.findElementsByNumber(this.locators.checkboxesLocator, checkboxNumber);
+        await this.focusElementByTab(targetCheckbox);
+        });
+    }
+
+     async isCheckboxFocused(checkboxNumber) {
+        const targetCheckbox = await this.findElementsByNumber(this.locators.checkboxesLocator, checkboxNumber);
+        return await this.isElementFocused(targetCheckbox);
+    }
 
     async changeCheckboxStateBySpaceKey() {
         return await Reporter.step(`Change state via Space key`, async () => {

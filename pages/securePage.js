@@ -21,7 +21,7 @@ class SecurePage extends BasePage {
     }
 
     async isLogoutBtnDisplayed(){
-        return await this.isBtnDisplayed(this.locators.logoutBtn);
+        return await this.isElementDisplayed(this.locators.logoutBtn);
     }
 
     async logout() {
