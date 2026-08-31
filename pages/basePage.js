@@ -23,11 +23,14 @@ class BasePage{
     async findElements(locator) {
         await this.wait(until.elementLocated(locator));
         const elements = await this.driver.findElements(locator);
-        await this.wait(until.elementIsVisible(elements));
         return elements;
     }
-    
 
+    async findElementsByNumber(locator, number) {
+        const elements = await this.findElements(locator);
+        return elements[number - 1];
+    }
+    
     async click(locator) {
         const element = await this.find(locator);
         await element.click()
@@ -46,12 +49,12 @@ class BasePage{
         return await element.getText();
     }
 
-    async isBtnDisplayed(locator) {
+    async isElementDisplayed(locator) {
         try {
             const element = await this.find(locator);
             return await element.isDisplayed();
         } catch (error) {
-            console.error(`the button ${locator} is not visible`);
+            console.error(`the element ${locator} is not visible`);
             return false;
         }    
     }
@@ -62,12 +65,31 @@ class BasePage{
 
     async pressKey(locator, specificKey) {
         await Reporter.step(`Press ${getKeyName(specificKey)} key`, async () => {
-
         const element = await this.find(locator);
         await element.sendKeys(specificKey);
         });
     }
+
+    async focusElementByTab(targetElement, maxTabs = 10) {
+        const targetElementId = await targetElement.getId();
+        for (let i = 0; i < maxTabs; i++) {
+            await this.driver.actions().sendKeys(Key.TAB).perform();
+            const activeElement = await this.driver.switchTo().activeElement();
+            const activeElementId = await activeElement.getId();           
+            if (activeElementId === targetElementId) {
+                return;
+            }
+        }
+            throw new Error(`Element could not be focused using Tab`);
+    }
+
+    async isElementFocused(element) {
+        const focusedElement = await this.driver.switchTo().activeElement();
+        return ( (await focusedElement.getId()) === (await element.getId()) );
+    }
     
+
+
 
 }
 module.exports = BasePage

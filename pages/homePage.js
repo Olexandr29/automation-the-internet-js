@@ -29,7 +29,7 @@ class HomePage extends BasePage {
     }
 
     async isDropdownLinkVisible() {
-        return await this.isBtnDisplayed(this.locators.dropdownPageLink);
+        return await this.isElementDisplayed(this.locators.dropdownPageLink);
     }
 
     async openCheckboxPage() {
