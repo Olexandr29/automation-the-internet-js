@@ -46,10 +46,9 @@ class BrokenImagesPage extends BasePage {
         }
 
     async isImgDisplayedCorrectly(ImgNumber) {
-        return await Reporter.step(`Observe the image ${ImgNumber} is displayed correctly`, async () => {
             const targetImg = this.findElementsByNumber(this.locators.imagesLocator, ImgNumber);
-            return await this.driver.executeScript("return arguments[0].complete && arguments[0].naturalWidth > 0;", targetImg);
-        });
+            return this.isElementDisplayedCorrectly(`Image ${ImgNumber}`, targetImg);
+        
         }
 
 

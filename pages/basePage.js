@@ -87,6 +87,12 @@ class BasePage{
         const focusedElement = await this.driver.switchTo().activeElement();
         return ( (await focusedElement.getId()) === (await element.getId()) );
     }
+
+     async isElementDisplayedCorrectly(elementName, targetElement) {
+        return await Reporter.step(`Observe the ${elementName} is displayed correctly`, async () => {
+            return await this.driver.executeScript("return arguments[0].complete && arguments[0].naturalWidth > 0;", targetElement);
+        });
+        }
     
 
 
