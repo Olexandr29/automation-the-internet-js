@@ -36,6 +36,11 @@ class BrokenImagesPage extends BasePage {
         return this.isElementDisplayed(this.locators.linkLocator);
     }
 
+    async isImgDisplayedCorrectly(ImgNumber) {
+        const targetImg = this.findElementsByNumber(this.locators.imagesLocator, ImgNumber);
+        return await this.driver.executeScript("return arguments[0].complete && arguments[0].naturalWidth > 0;", targetImg);
+    }
+
 
 }
 
