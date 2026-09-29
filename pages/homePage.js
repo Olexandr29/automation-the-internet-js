@@ -3,7 +3,7 @@ const LoginPage = require("../pages/loginPage");
 const BasePage = require('../pages/basePage');
 const DropdownPage = require('../pages/dropdownPage');
 const CheckboxPage = require('../pages/checkboxPage')
-
+const BrokenImagesPage = require('./brokenImagesPage');
 
 class HomePage extends BasePage {
     static URL = "https://the-internet.herokuapp.com/";
@@ -13,8 +13,9 @@ class HomePage extends BasePage {
         this.locators = {
         loginPageLink : By.linkText("Form Authentication"),
         dropdownPageLink: By.linkText("Dropdown"),
-        checkboxPageLink: By.linkText("Checkboxes")
-        }
+        checkboxPageLink: By.linkText("Checkboxes"),
+        brokenImagesPageLink: By.linkText("Broken Images")
+    }
 
     }
 
@@ -35,6 +36,11 @@ class HomePage extends BasePage {
     async openCheckboxPage() {
         await this.click(this.locators.checkboxPageLink);
         return new CheckboxPage(this.driver)
+    }
+
+    async openBrokenImagesPage() {
+        await this.click(this.locators.brokenImagesPageLink);
+        return new BrokenImagesPage(this.driver)
     }
 
 }
