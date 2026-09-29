@@ -7,14 +7,19 @@ const {allure} = require('allure-mocha/runtime');
 const jsonAssertion = require('soft-assert');
 const BrokenImagesData = require('../testData/brokenImagesData');
 
-describe("Broken Images test suite", function () {
+describe("[Regression] Broken Images test suite", function () {
     let driver;
     let homePage, brokenImagesPage;
 
 beforeEach(async function() {
+    await allure.feature("Broken Images");
     driver = await createDriver();
+    await Reporter.step("Open Home page", async () => {
     homePage = new HomePage(driver);
+    });
+    await Reporter.step("Open Broken Images page", async () => {
     brokenImagesPage = await homePage.openBrokenImagesPage();
+    });
 });
 
 afterEach(async function() {

@@ -1,5 +1,7 @@
 const BasePage = require('./basePage');
 const { By } = require('selenium-webdriver');
+const BrokenImagesData = require('../testData/brokenImagesData');
+const Reporter = require('../utils/reporter');
 
 class BrokenImagesPage extends BasePage {
     constructor(driver) {
@@ -19,27 +21,36 @@ class BrokenImagesPage extends BasePage {
     }
 
     async isHeaderDisplayed() {
-        return this.isElementDisplayed(this.locators.headerLocator);
+        return await Reporter.step(`Observe the ${BrokenImagesData.HEADER} header is visible`, async () => {
+            return this.isElementDisplayed(this.locators.headerLocator);
+        });
     }
 
     async getImagesAmount() {
-        const images = await this.findElements(this.locators.imagesLocator);
-        console.log(`images.length =`, images.length);
-        return images.length
+        return await Reporter.step(`Observe the ${BrokenImagesData.IMG_AMOUNT} img elements is visible`, async () => {
+            const images = await this.findElements(this.locators.imagesLocator);
+            return images.length
+        });
     }
 
     async isFooterDisplayed() {
-        return this.isElementDisplayed(this.locators.footerLocator);
-    }
+        return await Reporter.step(`Observe the ${BrokenImagesData.FOOTER} footer is visible`, async () => {
+            return this.isElementDisplayed(this.locators.footerLocator);
+        });
+        }
 
     async isLinkDisplayed() {
-        return this.isElementDisplayed(this.locators.linkLocator);
-    }
+        return await Reporter.step(`Observe the ${BrokenImagesData.LINK} link is visible`, async () => {
+            return this.isElementDisplayed(this.locators.linkLocator);
+        });
+        }
 
     async isImgDisplayedCorrectly(ImgNumber) {
-        const targetImg = this.findElementsByNumber(this.locators.imagesLocator, ImgNumber);
-        return await this.driver.executeScript("return arguments[0].complete && arguments[0].naturalWidth > 0;", targetImg);
-    }
+        return await Reporter.step(`Observe the image ${ImgNumber} is displayed correctly`, async () => {
+            const targetImg = this.findElementsByNumber(this.locators.imagesLocator, ImgNumber);
+            return await this.driver.executeScript("return arguments[0].complete && arguments[0].naturalWidth > 0;", targetImg);
+        });
+        }
 
 
 }
