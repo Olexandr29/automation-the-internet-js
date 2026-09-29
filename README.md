@@ -1,3 +1,5 @@
+[![Run JS tests on Linux](https://github.com/Olexandr29/automation-the-internet-js/actions/workflows/first_flow.yml/badge.svg)](https://github.com/Olexandr29/automation-the-internet-js/actions/workflows/first_flow.yml)
+
 # JavaScript UI Test Automation Framework for the Internet
 
 ## Project Purpose
