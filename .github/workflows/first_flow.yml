@@ -50,7 +50,7 @@ jobs:
           npm ci
 
       - name: Restore Allure history
-        uses: actions/cache/restire@v4
+        uses: actions/cache/restore@v4
         with:
           path: allure-history
           key: allure-history-${{ github.ref_name }}-${{ github.run_number }}
