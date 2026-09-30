@@ -100,7 +100,7 @@ jobs:
 
       - name: Save Allure history
         if: always()
-        uses: actions/cache/save@4
+        uses: actions/cache/save@v4
         with:
           path: allure-report/history
           key: allure-history-${{ github.ref_name }}-${{ github.run_number }}
