@@ -49,14 +49,61 @@ jobs:
         run: |
           npm ci
 
+      - name: Restore Allure history
+        uses: actions/cache/restire@v4
+        with:
+          path: allure-history
+          key: allure-history-${{ github.ref_name }}-${{ github.run_number }}
+          restore-keys:
+            allure-history-${{ github.ref_name }}-
+      
+      - name: Prepare Allure history
+        run: |
+          if [ -d "allure-history" ]; then
+            mkdir -p allure-results/history
+            cp -R allure-history/. allure-results/history/
+          fi
+
       - name: Run tests with Mocha + Allure
         run: |
           npm test
 
+      - name: Configure Allure environment
+        if: always()
+        run: |
+            cat > allure-results/environment.properties << EOF
+            execution = GitHub Actions
+            os_platform = Linux
+            os_version = Ubuntu
+            node_version = $(node --version)
+            browser = Chrome
+            EOF
+
+      - name: Configure Allure executor
+        if: always()
+        run: |
+          cat > allure-results/executor.json << EOF
+          {
+            "reportName": "GitHub Actions Allure Report",
+            "name": "GitHub Actions",
+            "type": "github",
+            "buildName": "Run #${{ github.run_number }}",
+            "buildOrder": ${{ github.run_number }},
+            "buildUrl": "https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }
+          EOF
+              
       - name: Generate Allure report
         if: always()
         run: |
           npm run report
+
+      - name: Save Allure history
+        if: always()
+        uses: actions/cache/save@4
+        with:
+          path: allure-report/history
+          key: allure-history-${{ github.ref_name }}-${{ github.run_number }}
 
       - name: Upload Allure Results
         if: always()

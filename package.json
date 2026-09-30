@@ -7,9 +7,10 @@
     "clean": "rimraf allure-results allure-report",
     "test": "cross-env ALLURE=true mocha tests/*.js --timeout 21000 --reporter allure-mocha",
     "history": "if exist allure-report\\history xcopy /E /I /Y allure-report\\history allure-results\\history",
-    "report": "npm run history && allure generate allure-results --clean -o allure-report",
+    "report": "allure generate allure-results --clean -o allure-report",
+    "report-with-history": "npm run history && allure generate allure-results --clean -o allure-report",
     "open": "allure open allure-report",
-    "test:allure": "(npm test || true) && npm run report && npm run open",
+    "test:allure": "(npm test || true) && npm run report-with-history && npm run open",
     "clean:test:allure": "npm run clean && npm run test:allure",
     "smoke": "npm test -- --grep Smoke",
     "regression": "npm test -- --grep Regression"
