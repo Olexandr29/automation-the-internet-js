@@ -52,24 +52,24 @@ jobs:
       - name: Restore Allure history
         uses: actions/cache/restore@v4
         with:
-          path: allure-history
+          path: allure-report/history
           key: allure-history-${{ github.ref_name }}-${{ github.run_number }}
           restore-keys:
             allure-history-${{ github.ref_name }}-
 
       - name: Debug restored history
         run: |
-          echo "=== allure-history ==="
-          ls -la allure-history || true
+          echo "=== allure-report/history ==="
+          ls -la allure-report/history || true
 
           echo "=== allure-results/history ==="
           ls -la allure-results/history || true
       
       - name: Prepare Allure history
         run: |
-          if [ -d "allure-history" ]; then
+          if [ -d "allure-report/history" ]; then
             mkdir -p allure-results/history
-            cp -R allure-history/. allure-results/history/
+            cp -R allure-report/history/. allure-results/history/
           fi
 
       - name: Debug prepared history
