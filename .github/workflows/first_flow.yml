@@ -56,6 +56,14 @@ jobs:
           key: allure-history-${{ github.ref_name }}-${{ github.run_number }}
           restore-keys:
             allure-history-${{ github.ref_name }}-
+
+      - name: Debug restored history
+        run: |
+          echo "=== allure-history ==="
+          ls -la allure-history || true
+
+          echo "=== allure-results/history ==="
+          ls -la allure-results/history || true
       
       - name: Prepare Allure history
         run: |
@@ -63,6 +71,11 @@ jobs:
             mkdir -p allure-results/history
             cp -R allure-history/. allure-results/history/
           fi
+
+      - name: Debug prepared history
+        run: |
+          echo "=== allure-results/history ==="
+          find allure-results/history -maxdepth 2 -type f -print || true        
 
       - name: Run tests with Mocha + Allure
         run: |
@@ -97,6 +110,12 @@ jobs:
         if: always()
         run: |
           npm run report
+
+      - name: Debug generated history
+        if: always()
+        run: |
+          echo "=== allure-report/history ==="
+          find allure-report/history -maxdepth 2 -type f -print || true
 
       - name: Save Allure history
         if: always()
