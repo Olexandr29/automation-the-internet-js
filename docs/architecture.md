@@ -51,7 +51,9 @@ Main Directories and Files
 </details>
 
 
-<details><summary><b>Main Components and Responsibilities</b></summary>
+<details><summary><b>Components and Responsibilities</b></summary>
+
+<details><summary>I) Pages</summary>
 
 The framework follows the Page Object Model (POM) approach. Page-specific UI interactions are encapsulated in dedicated Page Object classes, while shared browser interaction functionality is provided by the `BasePage` class.
 
@@ -88,7 +90,7 @@ Page Objects use the shared functionality inherited from `BasePage` while exposi
 </details>
 
 
-<details><summary><b>Test Components(Layers) and Responsibilities</b></summary>
+<details><summary>II) Test</summary>
 
 Test files contain automated test scenarios and verify the expected behavior of the application under test.
 
@@ -126,8 +128,11 @@ Each test initializes the required Page Object and opens the corresponding page 
 
 The `closeDriver` method closes the WebDriver session after test execution.
 If the test failed, the `closeDriver` function takes screenshot before closing the WebDriver session.
+</details>
 
-2) Test Data Modules
+
+<details><summary>III) Test Data Modules</summary>
+
 
 Test data is stored in dedicated modules under the `testData` directory.
 
@@ -144,9 +149,13 @@ These modules centralize URLs, expected messages, input values, and default UI s
 
 The test data modules expose constants that can be reused by multiple test methods. This reduces duplicated values in test implementations and separates test data from test execution logic.
 
-3) Allure Reporting
+</details>
 
-Allure is used to collect test execution results, steps, and failure screenshots.
+
+<details><summary>IV) Allure Reporting</summary>
+
+Allure reporting framework is used to collect test execution results, steps, and failure screenshots.
+It provides a centralized test reporting layer that transforms test execution data into an interactive report for analyzing test results, execution details, and failures.
 
 Local reporting is handled by `package.json` scripts, which run the tests, restore report history, generates and opens an Allure report.
 
@@ -218,7 +227,7 @@ See the example of [Allure report](https://olexandr29.github.io/automation-the-i
 | Open              | `npm run open`                            | —                                |
 | Deployment        | —                                         | GitHub Pages artifact → `deploy` |
 
-
+</details>
 </details>
 
 
