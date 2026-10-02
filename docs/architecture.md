@@ -33,5 +33,20 @@ automation-the-internet-js
 └───package.json            # npm project configuration, scripts, and dependencies
 ```
 
+Main Directories and Files
+
+| Directory / File              | Responsibility                                                                             |
+|-------------------------------|--------------------------------------------------------------------------------------------|
+| `.github/workflows/`          | Contains GitHub Actions workflow definitions for automated test execution and reporting.   |
+| `docs/`                       | Contains project documentation, including architecture documentation.                      |
+| `pages/`                      | Contains Page Object classes responsible for page-specific UI interactions.                |
+| `tests/`                      | Contains automated test classes that define test scenarios and assertions.                 |
+| `testData/`                   | Contains test data used by automated tests.                                                |
+| `utils/`                      | Contains logging and test reporting utilities.                                             |
+| `.gitignore`                  | Specifies files and directories that should not be tracked by Git.                         |
+| `package.json`                | Contains npm project configuration, scripts, and dependencies.                             |
+| `package-lock.json`           | Lock the versions of project dependencies. versions                                        |
+| `README.md`                   | Contains the project overview, technology stack, structure, and usage instructions.        |
+
 
 </details>
