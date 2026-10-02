@@ -164,3 +164,36 @@ See the example of [Allure report](https://olexandr29.github.io/automation-the-i
 
 </details>
 
+
+
+<details><summary><b>Test Execution Flow</b></summary>
+The JavaScript framework follows a test execution flow in which browser is initialized before each test, the required Page Object is opened, the test scenario is executed, and the browser session is closed afterward. 
+
+Test Layer
+```
+beforeEach()
+↓
+createDriver()
+↓
+Create ChromeDriver
+↓
+Open Home Page
+↓
+Initialize HomePage
+↓
+Open required Page Object (openLoginPage() / openDropdownPage() / openCheckboxPage() / ...)
+↓
+Test scenario
+(describe() -> it())
+↓
+afterEach()
+↓
+closeDriver()
+↓
+Capture failure screenshot (if test fails)
+↓
+driver.quit()
+```
+
+</details>
+
