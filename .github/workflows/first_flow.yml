@@ -1,4 +1,4 @@
-name: Run JS tests on Linux
+name: Run JS tests on Linux and deploy duild
 
 on: 
   push:
