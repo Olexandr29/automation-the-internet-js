@@ -10,7 +10,6 @@ class BasePage{
         this.driver = driver;
         this.wait = (condition, timeout = DEFAULT_TIMEOUT_MS) => 
             this.driver.wait(condition, timeout);
-
     }
 
     async find(locator) {
@@ -59,6 +58,10 @@ class BasePage{
         }    
     }
 
+    async isDynamicControlsPageLoaded(){
+        return await this.driver.executeScript("return document.readyState === 'complete';");
+    }
+    
     async waitForUrlContains(path) {
         await this.wait(until.urlContains(path));
     }
