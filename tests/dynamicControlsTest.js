@@ -13,7 +13,7 @@ describe("Dynamic Controls test suite", function() {
 beforeEach(async function() {
     driver = await createDriver();
     homePage = new HomePage(driver);
-
+    dynamicControlsPage = await homePage.openDynamicControlsPage();
 });
 
 afterEach(async function(){
@@ -21,7 +21,6 @@ await closeDriver(driver, this.currentTest);
 });
 
 it("TC38 - Verify page content", async function() {
-    dynamicControlsPage = await homePage.openDynamicControlsPage();
     assert.strictEqual(await driver.getCurrentUrl(), "https://the-internet.herokuapp.com/dynamic_controls")
     assert.strictEqual(await dynamicControlsPage.isDynamicControlsPageLoaded(), true, "The page is not completely loaded");
     assert.strictEqual(await dynamicControlsPage.isHeaderDisplayed(), true, `The page header '${DynamicControlsData.HEADER}' is not displayed`);
@@ -36,5 +35,14 @@ it("TC38 - Verify page content", async function() {
     assert.strictEqual(await dynamicControlsPage.isSeleniumLinkDisplayed(), true, `The link ${DynamicControlsData.SELENIUM_TEXT} is not displayed`);
     assert.strictEqual(await dynamicControlsPage.isSauceLabsLinkDisplayed(), true, `The link ${DynamicControlsData.SAUCE_LABS_TEXT} is not displayed`);
 });
+
+it.only("TC39 - Verify checkbox initial state and changes", async function() {
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox is wrong");
+await dynamicControlsPage.clickOnCheckbox()
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not checked afer click");
+await dynamicControlsPage.clickOnCheckbox()
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not unchecked after second click");
+});
+
 
 });

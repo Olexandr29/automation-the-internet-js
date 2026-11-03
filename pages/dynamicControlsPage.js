@@ -11,6 +11,7 @@ class DynamicControlsPage extends BasePage {
         paragraph : By.tagName("p"),
         checkboxSectionSubheader : By.xpath("//h4[text()='Remove/add']"),
         checkbox : By.id("checkbox"),
+        checkboxType : By.xpath("//input[@type='checkbox']"),
         buttonInCheckboxSection : By.xpath("//form[@id='checkbox-example']//button"),
         inputSectionSubheader : By.xpath("//h4[text()='Enable/disable']"),
         inputField : By.xpath("//input[@type='text']"),
@@ -47,6 +48,14 @@ class DynamicControlsPage extends BasePage {
             await this.isElementDisplayed(this.locators.checkbox) &&
             (await this.getText(this.locators.checkbox) === DynamicControlsData.CHECKBOX_TITLE)
         )
+    }
+
+    async isCheckboxChecked() {
+        return (await this.find(this.locators.checkboxType)).isSelected()
+    }
+
+    async clickOnCheckbox() {
+        return await this.click(this.locators.checkboxType)
     }
 
     async isRemoveButotnDisplayed() {

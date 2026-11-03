@@ -4,6 +4,7 @@ const DynamicControlsData = {
     PARAGRAPH : "This example demonstrates when elements (e.g., checkbox, input field, etc.) are changed asynchronously.",
     SUBHEADER_OF_CHECKBOX_SECTION : "Remove/add",
     CHECKBOX_TITLE : "A checkbox",
+    CHECKBOX_INITIAL_STATE : false,
     REMOVE_BTN_TITLE : "Remove",
     SUBHEADER_OF_INPUT_SECTION : "Enable/disable",
     ENABLE_BTN_TITLE : "Enable",
