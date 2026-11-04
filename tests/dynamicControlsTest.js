@@ -22,7 +22,7 @@ await closeDriver(driver, this.currentTest);
 
 it("TC38 - Verify page content", async function() {
     assert.strictEqual(await driver.getCurrentUrl(), "https://the-internet.herokuapp.com/dynamic_controls")
-    assert.strictEqual(await dynamicControlsPage.isDynamicControlsPageLoaded(), true, "The page is not completely loaded");
+    assert.strictEqual(await dynamicControlsPage.isSpecificPageLoaded(), true, "The page is not completely loaded");
     assert.strictEqual(await dynamicControlsPage.isHeaderDisplayed(), true, `The page header '${DynamicControlsData.HEADER}' is not displayed`);
     assert.strictEqual(await dynamicControlsPage.isParagraphDisplayed(), true, "The content of the paragraph is not correct");
     assert.strictEqual(await dynamicControlsPage.isCheckboxSectionSubheaderDisplayed(), true, `The subheader of checkbox section with text '${DynamicControlsData.SUBHEADER_OF_CHECKBOX_SECTION}' is not displayed`);
@@ -36,7 +36,7 @@ it("TC38 - Verify page content", async function() {
     assert.strictEqual(await dynamicControlsPage.isSauceLabsLinkDisplayed(), true, `The link ${DynamicControlsData.SAUCE_LABS_TEXT} is not displayed`);
 });
 
-it.only("TC39 - Verify checkbox initial state and changes", async function() {
+it("TC39 - Verify checkbox initial state and changes", async function() {
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox is wrong");
 await dynamicControlsPage.clickOnCheckbox()
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not checked afer click");
@@ -44,5 +44,15 @@ await dynamicControlsPage.clickOnCheckbox()
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not unchecked after second click");
 });
 
+it.only("TC40 - Remove and add checkbox", async function() {
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox is wrong");
+await dynamicControlsPage.clickOnRemoveBtn();
+assert.strictEqual(await dynamicControlsPage.isWaitTxtDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" is not displayed, but displayed - "${await dynamicControlsPage.getWaitText()}"`);
+assert.strictEqual(await dynamicControlsPage.isProgressBarDisplayed(), true, "The progress bar is not displayed");
+assert.strictEqual(await dynamicControlsPage.isCheckboxAbsentOrHidden(), true, "The checkbox is not removed and now displayed at the page");
+assert.notStrictEqual(await dynamicControlsPage.getBtnTxtInCheckboxSection(), DynamicControlsData.REMOVE_BTN_TITLE, "The button title is not changed");
+assert.strictEqual(await dynamicControlsPage.getBtnTxtInCheckboxSection(), DynamicControlsData.ADD_BTN_TITLE, `The button title is not ${DynamicControlsData.ADD_BTN_TITLE}`);
+assert.strictEqual(await dynamicControlsPage.isMsgAfterRemoveDisplayed(), true, `The message ${DynamicControlsData.MESSAGE_AFTER_REMOVE} is not displayed, but displayed - '${await dynamicControlsPage.getMsgAfterRemove()}'`);
+});
 
 });

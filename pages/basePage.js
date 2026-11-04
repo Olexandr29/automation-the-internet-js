@@ -58,7 +58,7 @@ class BasePage{
         }    
     }
 
-    async isDynamicControlsPageLoaded(){
+    async isSpecificPageLoaded(){
         return await this.driver.executeScript("return document.readyState === 'complete';");
     }
     
@@ -95,7 +95,23 @@ class BasePage{
         return await Reporter.step(`Observe the ${elementName} is displayed correctly`, async () => {
             return await this.driver.executeScript("return arguments[0].complete && arguments[0].naturalWidth > 0;", targetElement);
         });
-        }
+    }
+
+    async waitUntilElementAbsent(locator) {
+        return await this.wait(async driver => {
+            const elements = await driver.findElements(locator);
+            if (elements.length === 0) {
+                return true;
+            }
+            try {
+                return !(await elements[0].isDisplayed());
+            } catch (error) {
+                if (error.name === "StaleElementReferenceError") {
+                    return true;
+                } throw error;
+            }
+        })
+    }
     
 
 

@@ -1,5 +1,5 @@
 const BasePage = require('../pages/basePage');
-const { By } = require('selenium-webdriver');
+const { By, until } = require('selenium-webdriver');
 const DynamicControlsData = require('../testData/dynamicControlsData');
 
 class DynamicControlsPage extends BasePage {
@@ -13,6 +13,10 @@ class DynamicControlsPage extends BasePage {
         checkbox : By.id("checkbox"),
         checkboxType : By.xpath("//input[@type='checkbox']"),
         buttonInCheckboxSection : By.xpath("//form[@id='checkbox-example']//button"),
+        removeBtn : By.xpath("//button[text()='Remove']"),
+        waitTxt : By.xpath("//div[@id='loading']"),
+        progressBar : By.xpath("//img[@src='/img/ajax-loader.gif']"),
+        messageInCheckboxSection : By.xpath("//form[@id='checkbox-example']//p[@id='message']"),
         inputSectionSubheader : By.xpath("//h4[text()='Enable/disable']"),
         inputField : By.xpath("//input[@type='text']"),
         buttonInInputSection : By.xpath("//form[@id='input-example']//button"),
@@ -65,6 +69,10 @@ class DynamicControlsPage extends BasePage {
         )
     }
 
+    async clickOnRemoveBtn() {
+        return await this.click(this.locators.removeBtn)
+    }
+
     async isInputSubheaderDisplayed() {
         return (
             await this.isElementDisplayed(this.locators.inputSectionSubheader) &&
@@ -104,6 +112,66 @@ class DynamicControlsPage extends BasePage {
             (await this.getText(this.locators.sauceLabsLnik) === DynamicControlsData.SAUCE_LABS_TEXT)
         )
     }
+
+    async getWaitText() {
+        return await this.getText(this.locators.waitTxt)
+    }
+
+
+    async isWaitTxtDisplayed() {
+        return (
+            await this.isElementDisplayed(this.locators.waitTxt) && 
+            (await this.getWaitText() === DynamicControlsData.WAIT_TEXT)
+        )
+    }
+
+    async isProgressBarDisplayed() {
+        return await this.isElementDisplayed(this.locators.progressBar)
+    }
+
+    async isWaitTextAndProgressBarDisplayed(){
+        return (
+            await this.isWaitTxtDisplayed() &&
+            await this.isProgressBarDisplayed()
+        )
+    }
+
+    async waitUntilCheckboxAbsent() {
+        return await this.waitUntilElementAbsent(this.locators.checkbox)
+    }
+
+    async isCheckboxAbsentOrHidden() {
+        await this.waitUntilCheckboxAbsent()
+        const checkboxes = await this.driver.findElements(this.locators.checkbox);
+        return checkboxes.length === 0 || !(await checkboxes[0].isDisplayed())
+    }
+
+    async getBtnTxtInCheckboxSection() {
+        return await this.getText(this.locators.buttonInCheckboxSection)
+    }
+
+    async isBtnTxtChangedFromRemoveToAdd() {
+        return await this.getBtnTxtInCheckboxSection() !== DynamicControlsData.REMOVE_BTN_TITLE &&
+        await this.getBtnTxtInCheckboxSection() === DynamicControlsData.ADD_BTN_TITLE
+    }
+
+    async getMsgAfterRemove() {
+        return await this.getText(this.locators.messageInCheckboxSection) 
+
+    }
+    async isMsgAfterRemoveDisplayed() {
+        return await this.isElementDisplayed(this.locators.messageInCheckboxSection) &&
+        await this.getMsgAfterRemove() === DynamicControlsData.MESSAGE_AFTER_REMOVE
+    }
+
+    //    def wait_until_element_is_enabled(self, locator):
+    //      return self.wait.until(
+    //           lambda driver: driver.find_element(*locator).is_enabled())
+ 
+
+
+
+
 
 
 }

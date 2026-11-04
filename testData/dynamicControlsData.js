@@ -6,11 +6,14 @@ const DynamicControlsData = {
     CHECKBOX_TITLE : "A checkbox",
     CHECKBOX_INITIAL_STATE : false,
     REMOVE_BTN_TITLE : "Remove",
+    ADD_BTN_TITLE : "Add",
+    MESSAGE_AFTER_REMOVE : "It's gone!",
     SUBHEADER_OF_INPUT_SECTION : "Enable/disable",
     ENABLE_BTN_TITLE : "Enable",
     FOOTER : "Powered by Elemental Selenium and Sauce Labs",
     SELENIUM_TEXT : "Elemental Selenium",
-    SAUCE_LABS_TEXT : "Sauce Labs"
+    SAUCE_LABS_TEXT : "Sauce Labs",
+    WAIT_TEXT : "Wait for it..."
 }
 
 module.exports = DynamicControlsData;
