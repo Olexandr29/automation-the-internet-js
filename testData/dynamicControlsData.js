@@ -8,6 +8,7 @@ const DynamicControlsData = {
     REMOVE_BTN_TITLE : "Remove",
     ADD_BTN_TITLE : "Add",
     MESSAGE_AFTER_REMOVE : "It's gone!",
+    MESSAGE_AFTER_ADD : "It's back!",
     SUBHEADER_OF_INPUT_SECTION : "Enable/disable",
     ENABLE_BTN_TITLE : "Enable",
     FOOTER : "Powered by Elemental Selenium and Sauce Labs",

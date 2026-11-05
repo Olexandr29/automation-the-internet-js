@@ -46,6 +46,8 @@ assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The ch
 
 it.only("TC40 - Remove and add checkbox", async function() {
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox is wrong");
+assert.strictEqual(await dynamicControlsPage.getCheckboxTextWithLocatorCheckboxContainer(), DynamicControlsData.CHECKBOX_TITLE, "the title is not the same")
+await dynamicControlsPage.debugCheckboxHtml()
 await dynamicControlsPage.clickOnRemoveBtn();
 assert.strictEqual(await dynamicControlsPage.isWaitTxtDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" is not displayed, but displayed - "${await dynamicControlsPage.getWaitText()}"`);
 assert.strictEqual(await dynamicControlsPage.isProgressBarDisplayed(), true, "The progress bar is not displayed");
@@ -53,6 +55,14 @@ assert.strictEqual(await dynamicControlsPage.isCheckboxAbsentOrHidden(), true, "
 assert.notStrictEqual(await dynamicControlsPage.getBtnTxtInCheckboxSection(), DynamicControlsData.REMOVE_BTN_TITLE, "The button title is not changed");
 assert.strictEqual(await dynamicControlsPage.getBtnTxtInCheckboxSection(), DynamicControlsData.ADD_BTN_TITLE, `The button title is not ${DynamicControlsData.ADD_BTN_TITLE}`);
 assert.strictEqual(await dynamicControlsPage.isMsgAfterRemoveDisplayed(), true, `The message ${DynamicControlsData.MESSAGE_AFTER_REMOVE} is not displayed, but displayed - '${await dynamicControlsPage.getMsgAfterRemove()}'`);
+await dynamicControlsPage.clickOnAddBtn();
+assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text '${DynamicControlsData.WAIT_TEXT}' and progress bar are not displayed`);
+assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The checkbox is not displayed");
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not uncheked");
+assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromAddToRemove(), true, `The button title is not = '${DynamicControlsData.REMOVE_BTN_TITLE}' but = ${await dynamicControlsPage.getBtnTxtInCheckboxSection()}`)
+assert.strictEqual(await dynamicControlsPage.isMsgAfterAddDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_REMOVE}" is not changed to "${DynamicControlsData.MESSAGE_AFTER_ADD}"`);
+await dynamicControlsPage.debugCheckboxHtml()
+
 });
 
 });

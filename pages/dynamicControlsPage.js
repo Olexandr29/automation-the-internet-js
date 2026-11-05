@@ -11,9 +11,10 @@ class DynamicControlsPage extends BasePage {
         paragraph : By.tagName("p"),
         checkboxSectionSubheader : By.xpath("//h4[text()='Remove/add']"),
         checkbox : By.id("checkbox"),
-        checkboxType : By.xpath("//input[@type='checkbox']"),
+        checkboxContainer : By.xpath("//form[@id='checkbox-example']//div[.//input[@type='checkbox']]"),
         buttonInCheckboxSection : By.xpath("//form[@id='checkbox-example']//button"),
         removeBtn : By.xpath("//button[text()='Remove']"),
+        addBtn : By.xpath("//button[text()='Add']"),
         waitTxt : By.xpath("//div[@id='loading']"),
         progressBar : By.xpath("//img[@src='/img/ajax-loader.gif']"),
         messageInCheckboxSection : By.xpath("//form[@id='checkbox-example']//p[@id='message']"),
@@ -49,17 +50,34 @@ class DynamicControlsPage extends BasePage {
 
     async isChecboxDisplayed() {
         return (
-            await this.isElementDisplayed(this.locators.checkbox) &&
-            (await this.getText(this.locators.checkbox) === DynamicControlsData.CHECKBOX_TITLE)
+            await this.isElementDisplayed(this.locators.checkboxContainer) 
+            &&
+            (await this.getCheckboxTextWithLocatorCheckboxContainer() === DynamicControlsData.CHECKBOX_TITLE)
         )
     }
 
+    async getCheckboxTextWithLocatorCheckboxContainer() {
+        const textWithLocatorCheckboxContainer = await this.getText(this.locators.checkboxContainer);
+        console.log(`TextWithLocatorCheckbox = '${textWithLocatorCheckboxContainer}'`)
+        console.log(`Text from test data = '${DynamicControlsData.CHECKBOX_TITLE}'`)
+        return textWithLocatorCheckboxContainer
+    }
+
+async debugCheckboxHtml() {
+    const element = await this.find(this.locators.checkbox);
+
+    const html = await element.getAttribute("outerHTML");
+
+    console.log("Checkbox outerHTML:", html);
+}
+
+
     async isCheckboxChecked() {
-        return (await this.find(this.locators.checkboxType)).isSelected()
+        return (await this.find(this.locators.checkboxContainer)).isSelected()
     }
 
     async clickOnCheckbox() {
-        return await this.click(this.locators.checkboxType)
+        return await this.click(this.locators.checkboxContainer)
     }
 
     async isRemoveButotnDisplayed() {
@@ -73,6 +91,10 @@ class DynamicControlsPage extends BasePage {
         return await this.click(this.locators.removeBtn)
     }
 
+    async clickOnAddBtn() {
+        return await this.click(this.locators.addBtn)
+    }
+    
     async isInputSubheaderDisplayed() {
         return (
             await this.isElementDisplayed(this.locators.inputSectionSubheader) &&
@@ -163,10 +185,22 @@ class DynamicControlsPage extends BasePage {
         return await this.isElementDisplayed(this.locators.messageInCheckboxSection) &&
         await this.getMsgAfterRemove() === DynamicControlsData.MESSAGE_AFTER_REMOVE
     }
+    
+    async isBtnTxtChangedFromAddToRemove() {
+        return await this.getBtnTxtInCheckboxSection() !== DynamicControlsData.ADD_BTN_TITLE &&
+        await this.getBtnTxtInCheckboxSection() === DynamicControlsData.REMOVE_BTN_TITLE
+    }
 
-    //    def wait_until_element_is_enabled(self, locator):
-    //      return self.wait.until(
-    //           lambda driver: driver.find_element(*locator).is_enabled())
+    async getMsgAfterAdd() {
+        return await this.getText(this.locators.messageInCheckboxSection) 
+
+    }
+    async isMsgAfterAddDisplayed() {
+        return await this.isElementDisplayed(this.locators.messageInCheckboxSection) &&
+        await this.getMsgAfterAdd() === DynamicControlsData.MESSAGE_AFTER_ADD
+    }
+
+    
  
 
 
