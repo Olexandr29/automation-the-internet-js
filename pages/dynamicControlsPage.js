@@ -11,6 +11,7 @@ class DynamicControlsPage extends BasePage {
         paragraph : By.tagName("p"),
         checkboxSectionSubheader : By.xpath("//h4[text()='Remove/add']"),
         checkbox : By.id("checkbox"),
+        checkboxForClick : By.xpath("//input[@type='checkbox']"),
         checkboxContainer : By.xpath("//form[@id='checkbox-example']//div[.//input[@type='checkbox']]"),
         buttonInCheckboxSection : By.xpath("//form[@id='checkbox-example']//button"),
         removeBtn : By.xpath("//button[text()='Remove']"),
@@ -52,32 +53,20 @@ class DynamicControlsPage extends BasePage {
         return (
             await this.isElementDisplayed(this.locators.checkboxContainer) 
             &&
-            (await this.getCheckboxTextWithLocatorCheckboxContainer() === DynamicControlsData.CHECKBOX_TITLE)
+            (await this.getCheckboxText() === DynamicControlsData.CHECKBOX_TITLE)
         )
     }
 
-    async getCheckboxTextWithLocatorCheckboxContainer() {
-        const textWithLocatorCheckboxContainer = await this.getText(this.locators.checkboxContainer);
-        console.log(`TextWithLocatorCheckbox = '${textWithLocatorCheckboxContainer}'`)
-        console.log(`Text from test data = '${DynamicControlsData.CHECKBOX_TITLE}'`)
-        return textWithLocatorCheckboxContainer
+    async getCheckboxText() {
+        return await this.getText(this.locators.checkboxContainer);
     }
 
-async debugCheckboxHtml() {
-    const element = await this.find(this.locators.checkbox);
-
-    const html = await element.getAttribute("outerHTML");
-
-    console.log("Checkbox outerHTML:", html);
-}
-
-
     async isCheckboxChecked() {
-        return (await this.find(this.locators.checkboxContainer)).isSelected()
+        return (await this.find(this.locators.checkboxForClick)).isSelected()
     }
 
     async clickOnCheckbox() {
-        return await this.click(this.locators.checkboxContainer)
+        return await this.click(this.locators.checkboxForClick)
     }
 
     async isRemoveButotnDisplayed() {
@@ -101,7 +90,6 @@ async debugCheckboxHtml() {
             (await this.getText(this.locators.inputSectionSubheader) === DynamicControlsData.SUBHEADER_OF_INPUT_SECTION)
         )
     }
-
 
     async isInputFieldDisplayed() {
         return await this.isElementDisplayed(this.locators.inputField)
@@ -138,7 +126,6 @@ async debugCheckboxHtml() {
     async getWaitText() {
         return await this.getText(this.locators.waitTxt)
     }
-
 
     async isWaitTxtDisplayed() {
         return (
