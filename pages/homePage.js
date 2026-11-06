@@ -4,6 +4,7 @@ const BasePage = require('../pages/basePage');
 const DropdownPage = require('../pages/dropdownPage');
 const CheckboxPage = require('../pages/checkboxPage')
 const BrokenImagesPage = require('./brokenImagesPage');
+const DynamicControlsPage = require('./dynamicControlsPage')
 
 class HomePage extends BasePage {
     static URL = "https://the-internet.herokuapp.com/";
@@ -14,7 +15,8 @@ class HomePage extends BasePage {
         loginPageLink : By.linkText("Form Authentication"),
         dropdownPageLink: By.linkText("Dropdown"),
         checkboxPageLink: By.linkText("Checkboxes"),
-        brokenImagesPageLink: By.linkText("Broken Images")
+        brokenImagesPageLink: By.linkText("Broken Images"),
+        dynamicControlsLink : By.linkText("Dynamic Controls")
     }
 
     }
@@ -41,6 +43,11 @@ class HomePage extends BasePage {
     async openBrokenImagesPage() {
         await this.click(this.locators.brokenImagesPageLink);
         return new BrokenImagesPage(this.driver)
+    }
+
+    async openDynamicControlsPage() {
+        await this.click(this.locators.dynamicControlsLink);
+        return new DynamicControlsPage(this.driver)
     }
 
 }
