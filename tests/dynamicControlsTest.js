@@ -29,6 +29,7 @@ async function verifyStateAfterRemove() {
 
 async function verifyStateAfterAdd() {
     assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text '${DynamicControlsData.WAIT_TEXT}' and progress bar are not displayed`);
+    // await dynamicControlsPage.waitUntilCheckboxisEnabled();
     assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The checkbox is not displayed");
     assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromAddToRemove(), true, `The button title is not = '${DynamicControlsData.REMOVE_BTN_TITLE}' but = ${await dynamicControlsPage.getBtnTxtInCheckboxSection()}`)
     assert.strictEqual(await dynamicControlsPage.isMsgAfterAddDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_REMOVE}" is not changed to "${DynamicControlsData.MESSAGE_AFTER_ADD}"`);
@@ -58,7 +59,7 @@ await dynamicControlsPage.clickOnCheckbox()
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not unchecked after second click");
 });
 
-it.only("TC40 - Remove and add checkbox", async function() {
+it("TC40 - Remove and add checkbox", async function() {
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox is wrong");
 assert.strictEqual(await dynamicControlsPage.getCheckboxText(), DynamicControlsData.CHECKBOX_TITLE, "the title is not the same")
 await dynamicControlsPage.clickOnRemoveBtn();
@@ -66,6 +67,75 @@ await verifyStateAfterRemove()
 await dynamicControlsPage.clickOnAddBtn();
 await verifyStateAfterAdd()
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not uncheked");
+});
+
+it("TC41 -Remove and add checked checkbox", async function() {
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, `The initial state of the checkbox should be unchecked`);
+
+await dynamicControlsPage.clickOnCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not became checked");
+
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+
+await dynamicControlsPage.clickOnAddBtn();
+await verifyStateAfterAdd();
+
+await dynamicControlsPage.clickOnCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not became checked");
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+assert.strictEqual(await dynamicControlsPage.isCorrectTxtDisplayedAfterRemoveCheckbox(), true, ` Just text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed after removing checkbox`);
+
+await dynamicControlsPage.clickOnAddBtn();
+await verifyStateAfterAdd();
+
+await dynamicControlsPage.clickOnCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not became checked");
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 2, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 2 times at the page`);
+
+await dynamicControlsPage.clickOnAddBtn();
+// await verifyStateAfterAdd();
+// assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should be with unchecked state `);
+// assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 3, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 3 times at the page`);
+});
+
+it("TC42 -Enable and disable the Input field", async function() {
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), DynamicControlsData.INPUT_FIELD_INITIAL_STATE, "The initial state of the input field should be disabled");
+
+await dynamicControlsPage.clickOnEnableBtn();
+assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" and progress bar are appeared`);
+await dynamicControlsPage.waitUntilInputIsEnabled();
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), true, `The state of the input field should became enabled`);
+assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromEnableToDisable(), true, `The button title "${DynamicControlsData.ENABLE_BTN_TITLE}" should be changed to "${DynamicControlsData.DISABLE_BTN_TITLE}"`);
+assert.strictEqual(await dynamicControlsPage.isMsgAfterEnableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_ENABLE}" should appeared`);
+});
+
+it.only("TC43 - Verify checkbox section state after refresh", async function() {
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+
+await driver.navigate().refresh();
+assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The Checkbox shold be displayed after refresh the page");
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox = unchecked should be displayed");
+assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button title "${DynamicControlsData.REMOVE_BTN_TITLE}" should be displayed`);
+
+await dynamicControlsPage.clickOnCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, `The checkbox state should became cheked`);
+
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+
+await dynamicControlsPage.clickOnAddBtn();
+await verifyStateAfterAdd();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked, false, `The checkbox should have unchecked state`);
+
+await driver.navigate().refresh();
+assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The Checkbox shold be displayed after refresh the page");
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox = unchecked should be displayed");
+assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button title "${DynamicControlsData.REMOVE_BTN_TITLE}" should be displayed`);
 });
 
 });

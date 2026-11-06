@@ -18,10 +18,14 @@ class DynamicControlsPage extends BasePage {
         addBtn : By.xpath("//button[text()='Add']"),
         waitTxt : By.xpath("//div[@id='loading']"),
         progressBar : By.xpath("//img[@src='/img/ajax-loader.gif']"),
+        txtFromRemovedCheckbox : By.xpath("//div[text()=' A checkbox']"),
         messageInCheckboxSection : By.xpath("//form[@id='checkbox-example']//p[@id='message']"),
         inputSectionSubheader : By.xpath("//h4[text()='Enable/disable']"),
         inputField : By.xpath("//input[@type='text']"),
         buttonInInputSection : By.xpath("//form[@id='input-example']//button"),
+        enableBtn : By.xpath("//button[text()='Enable']"),
+        disableBtn : By.xpath("//button[text()='Disable']"),
+        messageInInputSection : By.xpath("//form[@id='input-example']//p[@id='message']"),
         footer : By.xpath("//div[@style='text-align: center;']"),
         seleniumLink : By.linkText("Elemental Selenium"),
         sauceLabsLnik : By.linkText("Sauce Labs")
@@ -47,6 +51,17 @@ class DynamicControlsPage extends BasePage {
             await this.isElementDisplayed(this.locators.checkboxSectionSubheader) &&
             (await this.getText(this.locators.checkboxSectionSubheader) === DynamicControlsData.SUBHEADER_OF_CHECKBOX_SECTION)
         );
+    }
+
+    async waitUntilCheckboxisEnabled() {
+        // const checktboxes = await this.findElements(this.locators.checkbox);
+        // const checkbox = await checktboxes[0];
+        // await this.wait(until)
+        // return await this.wait(until.elementIsDisabled(checkbox));
+        return await this.waitUntilElementIsEnabled(this.locators.checkboxForClick)
+        // (this.locators.checkbox) ? = fail
+        // (this.locators.checkboxContainer) ? = fail
+
     }
 
     async isChecboxDisplayed() {
@@ -187,7 +202,59 @@ class DynamicControlsPage extends BasePage {
         await this.getMsgAfterAdd() === DynamicControlsData.MESSAGE_AFTER_ADD
     }
 
+    async getTxtFromRemovedCheckbox() {
+        return await this.getText(this.locators.txtFromRemovedCheckbox)
+    }
+
+    async isCorrectTxtDisplayedAfterRemoveCheckbox() {
+        return await this.isElementDisplayed(this.locators.txtFromRemovedCheckbox) &&
+        (await this.getTxtFromRemovedCheckbox() === DynamicControlsData.CHECKBOX_TITLE)
+    }
+
+    async getAmountOfDisplayedTxtFromChekbox() {
+        const txtElements = await this.findElements(this.locators.txtFromRemovedCheckbox)
+        return txtElements.length
+    }
+
+    async waitUntilInputIsEnabled() {
+        return await this.waitUntilElementIsEnabled(this.locators.inputField);
+    }
     
+    async isInputFieldEnabled() {
+        const inputFieldEl = await this.find(this.locators.inputField)
+        return await inputFieldEl.isEnabled();
+    }
+
+     async clickOnEnableBtn() {
+        return await this.click(this.locators.enableBtn)
+    }
+
+     async getBtnTxtInInputSection() {
+        return await this.getText(this.locators.buttonInInputSection)
+    }
+
+    async isBtnTxtChangedFromEnableToDisable() {
+        return await this.getBtnTxtInInputSection() !== DynamicControlsData.ENABLE_BTN_TITLE &&
+        await this.getBtnTxtInInputSection() === DynamicControlsData.DISABLE_BTN_TITLE
+    }
+
+    async getMsgAfterEnable() {
+        return await this.getText(this.locators.messageInInputSection) 
+
+    }
+    async isMsgAfterEnableDisplayed() {
+        return await this.isElementDisplayed(this.locators.messageInInputSection) &&
+        await this.getMsgAfterEnable() === DynamicControlsData.MESSAGE_AFTER_ENABLE
+    }
+    
+    // async isBtnTxtChangedFromEnableToDisable() {
+    //     return await this.getBtnTxtInInputSection() !== DynamicControlsData.ENABLE_BTN_TITLE &&
+    //     await this.getBtnTxtInCheckboxSection() === DynamicControlsData.DISABLE_BTN_TITLE
+    // }
+
+    async clickOnDisableBtn() {
+        return await this.click(this.locators.disableBtn)
+    }
  
 
 

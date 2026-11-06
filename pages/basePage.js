@@ -112,6 +112,14 @@ class BasePage{
             }
         })
     }
+
+    async waitUntilElementIsEnabled(locator) {
+        const element = await this.find(locator);
+        await this.wait(until.elementIsEnabled(element));
+        return element;
+    }
+
+    
     
 
 

@@ -11,10 +11,13 @@ const DynamicControlsData = {
     MESSAGE_AFTER_ADD : "It's back!",
     SUBHEADER_OF_INPUT_SECTION : "Enable/disable",
     ENABLE_BTN_TITLE : "Enable",
+    DISABLE_BTN_TITLE : "Disable",
     FOOTER : "Powered by Elemental Selenium and Sauce Labs",
     SELENIUM_TEXT : "Elemental Selenium",
     SAUCE_LABS_TEXT : "Sauce Labs",
-    WAIT_TEXT : "Wait for it..."
+    WAIT_TEXT : "Wait for it...",
+    INPUT_FIELD_INITIAL_STATE : false,
+    MESSAGE_AFTER_ENABLE : "It's enabled!"
 }
 
 module.exports = DynamicControlsData;
