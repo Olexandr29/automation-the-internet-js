@@ -54,15 +54,7 @@ class DynamicControlsPage extends BasePage {
     }
 
     async waitUntilCheckboxisEnabled() {
-        // const checktboxes = await this.findElements(this.locators.checkbox);
-        // const checkbox = await checktboxes[0];
-        // await this.wait(until)
-        // return await this.wait(until.elementIsDisabled(checkbox));
         return await this.waitUntilElementIsEnabled(this.locators.checkboxForClick)
-
-        // (this.locators.checkbox) ? = fail
-        // (this.locators.checkboxContainer) ? = fail
-
     }
 
     async isChecboxDisplayed() {
@@ -247,11 +239,6 @@ class DynamicControlsPage extends BasePage {
         return await this.isElementDisplayed(this.locators.messageInInputSection) &&
         await this.getMsgAfterEnable() === DynamicControlsData.MESSAGE_AFTER_ENABLE
     }
-    
-    // async isBtnTxtChangedFromEnableToDisable() {
-    //     return await this.getBtnTxtInInputSection() !== DynamicControlsData.ENABLE_BTN_TITLE &&
-    //     await this.getBtnTxtInCheckboxSection() === DynamicControlsData.DISABLE_BTN_TITLE
-    // }
 
     async clickOnDisableBtn() {
         return await this.click(this.locators.disableBtn)

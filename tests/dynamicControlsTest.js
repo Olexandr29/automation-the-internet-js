@@ -4,7 +4,7 @@ const DynamicControlsPage = require('../pages/dynamicControlsPage')
 const assert = require('assert');
 const DynamicControlsData = require('../testData/dynamicControlsData');
 
-describe("Dynamic Controls test suite", function() {
+describe.only("Dynamic Controls test suite", function() {
     let driver;
     let homePage; 
     /**@type {DynamicControlsPage} */
@@ -21,26 +21,17 @@ afterEach(async function(){
 });
 
 async function verifyStateAfterRemove() {
-    // console.log("now will be the assertion of the 'isWaitTextAndProgressBarDisplayed' method");
     assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" or progress bar are not displayed`);
-    // console.log("now will be the assertion of the 'isCheckboxAbsentOrHidden' method");
     assert.strictEqual(await dynamicControlsPage.isCheckboxAbsentOrHidden(), true, "The checkbox is not removed and now displayed at the page");
-    // console.log("now will be the assertion of the 'isBtnTxtChangedFromRemoveToAdd' method");
     assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromRemoveToAdd(), true, `The button title is not changes from '${DynamicControlsData.REMOVE_BTN_TITLE}' to '${DynamicControlsData.ADD_BTN_TITLE}`);
-    // console.log("now will be the assertion of the 'isMsgAfterRemoveDisplayed' method");
     assert.strictEqual(await dynamicControlsPage.isMsgAfterRemoveDisplayed(), true, `The message ${DynamicControlsData.MESSAGE_AFTER_REMOVE} is not displayed, but displayed - '${await dynamicControlsPage.getMsgAfterRemove()}'`);
 }
 
 async function verifyStateAfterAdd() {
-    // console.log("now will be the assertion of the 'isWaitTextAndProgressBarDisplayed' method");
     assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text '${DynamicControlsData.WAIT_TEXT}' and progress bar are not displayed`);
-        // console.log("now will be the wait of the 'waitUntilCheckboxisEnabled' method");
     await dynamicControlsPage.waitUntilCheckboxisEnabled();
-    //  console.log("now will be the assertion of the 'isChecboxDisplayed' method");
     assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The checkbox is not displayed");
-    // console.log("now will be the assertion of the 'isBtnTxtChangedFromAddToRemove' method");
     assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromAddToRemove(), true, `The button title is not = '${DynamicControlsData.REMOVE_BTN_TITLE}' but = ${await dynamicControlsPage.getBtnTxtInCheckboxSection()}`)    
-    // console.log("now will be the assertion of the 'isMsgAfterAddDisplayed' method");
     assert.strictEqual(await dynamicControlsPage.isMsgAfterAddDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_REMOVE}" is not changed to "${DynamicControlsData.MESSAGE_AFTER_ADD}"`);
 }
 
@@ -78,48 +69,38 @@ await verifyStateAfterAdd()
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not uncheked");
 });
 
-it.only("TC41 -Remove and add checked checkbox", async function() {
-    const startTime = Date.now();
-
+it("TC41 -Remove and add checked checkbox", async function() {
     this.timeout(31000);
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, `The initial state of the checkbox should be unchecked`);
 
-console.log("Step 2")
 await dynamicControlsPage.clickOnCheckbox();
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not became checked");
 
-console.log("Step 3")
 await dynamicControlsPage.clickOnRemoveBtn();
 await verifyStateAfterRemove();
 
-console.log("Step 4")
 await dynamicControlsPage.clickOnAddBtn();
 await verifyStateAfterAdd();
 
-console.log("Step 5")
 await dynamicControlsPage.clickOnCheckbox();
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not became checked");
 await dynamicControlsPage.clickOnRemoveBtn();
 await verifyStateAfterRemove();
 assert.strictEqual(await dynamicControlsPage.isCorrectTxtDisplayedAfterRemoveCheckbox(), true, ` Just text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed after removing checkbox`);
 
-console.log("Step 6")
 await dynamicControlsPage.clickOnAddBtn();
 await verifyStateAfterAdd();
 
-console.log("Step 7")
 await dynamicControlsPage.clickOnCheckbox();
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not became checked");
 await dynamicControlsPage.clickOnRemoveBtn();
 await verifyStateAfterRemove();
 assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 2, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 2 times at the page`);
 
-console.log("Step 8")
 await dynamicControlsPage.clickOnAddBtn();
 await verifyStateAfterAdd();
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should be with unchecked state `);
 assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 3, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 3 times at the page`);
-console.log(`TC41 execution time: ${Date.now() - startTime} ms`);
 });
 
 it("TC42 -Enable and disable the Input field", async function() {
