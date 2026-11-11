@@ -59,6 +59,7 @@ class DynamicControlsPage extends BasePage {
         // await this.wait(until)
         // return await this.wait(until.elementIsDisabled(checkbox));
         return await this.waitUntilElementIsEnabled(this.locators.checkboxForClick)
+
         // (this.locators.checkbox) ? = fail
         // (this.locators.checkboxContainer) ? = fail
 
