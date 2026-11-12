@@ -19,7 +19,8 @@ const DynamicControlsData = {
     INPUT_FIELD_INITIAL_STATE : false,
     MESSAGE_AFTER_ENABLE : "It's enabled!",
     MESSAGE_AFTER_DISABLE : "It's disabled!",
-    INPUT_TEXT_MIXED_CASE : "Hello"
+    INPUT_TEXT_MIXED_CASE : "Hello",
+    INPUT_TEXT_ALPHANUMERIC_SPECIAL_CHARS : "Input123$"
 }
 
 module.exports = DynamicControlsData;

@@ -119,7 +119,7 @@ assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The ch
 assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 3, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 3 times at the page`);
 });
 
-it.only("TC42 -Enable and disable the Input field", async function() {
+it("TC42 -Enable and disable the Input field", async function() {
 assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), DynamicControlsData.INPUT_FIELD_INITIAL_STATE, "The initial state of the input field should be disabled");
 
 await dynamicControlsPage.clickOnEnableBtn();
@@ -156,6 +156,27 @@ await driver.navigate().refresh();
 assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The Checkbox shold be displayed after refresh the page");
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox = unchecked should be displayed");
 assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button title "${DynamicControlsData.REMOVE_BTN_TITLE}" should be displayed`);
+});
+
+it.only("TC44 - Verify Iput field section state after refresh", async function() {
+await dynamicControlsPage.clickOnEnableBtn();
+await verifyStateAfterEnable();
+
+await driver.navigate().refresh();
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should be disabled`);
+assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The button title ${DynamicControlsData.ENABLE_BTN_TITLE}" should be displayed`);
+
+await dynamicControlsPage.clickOnEnableBtn();
+await verifyStateAfterEnable();
+await dynamicControlsPage.enterValueIntoInputField(DynamicControlsData.INPUT_TEXT_ALPHANUMERIC_SPECIAL_CHARS);
+assert.strictEqual(await dynamicControlsPage.isCorrectEnteredTextDisplayed(DynamicControlsData.INPUT_TEXT_ALPHANUMERIC_SPECIAL_CHARS), true, `The entered text should be displayed into the input field`);
+
+await dynamicControlsPage.clickOnDisableBtn();
+await verifyStateAfterDisable();
+
+await driver.navigate().refresh();
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should be disabled`);
+assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The button title "${DynamicControlsData.ENABLE_BTN_TITLE}" should be displayed`);
 });
 
 });
