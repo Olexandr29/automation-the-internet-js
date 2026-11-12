@@ -272,6 +272,11 @@ class DynamicControlsPage extends BasePage {
         return await this.waitUntilElementIsDisabled(this.locators.inputField);
     }
 
+    async isCorrectEnteredTextDisplayed(enteredText) {
+        return await this.isElementDisplayed(this.locators.inputField) &&
+        (await this.getEnteredTextFromInputField() === enteredText);
+    }
+
 
     
 

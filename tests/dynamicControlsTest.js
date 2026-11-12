@@ -43,6 +43,14 @@ assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromEnableToDisable(
 assert.strictEqual(await dynamicControlsPage.isMsgAfterEnableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_ENABLE}" should appeared`);
 }
 
+async function verifyStateAfterDisable() {
+assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" and progress bar are appeared`);
+await dynamicControlsPage.waitUntilInputDisabled();
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should became disabled`);
+assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromDisableToEnable(), true, `The button title "${DynamicControlsData.DISABLE_BTN_TITLE}" should be changed to "${DynamicControlsData.ENABLE_BTN_TITLE}"`);
+assert.strictEqual(await dynamicControlsPage.isMsgAfterDisableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_DISABLE}" should appeared`);
+}
+
 it("TC38 - Verify page content", async function() {
     assert.strictEqual(await driver.getCurrentUrl(), "https://the-internet.herokuapp.com/dynamic_controls")
     assert.strictEqual(await dynamicControlsPage.isSpecificPageLoaded(), true, "The page is not completely loaded");
@@ -113,23 +121,16 @@ assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(
 
 it.only("TC42 -Enable and disable the Input field", async function() {
 assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), DynamicControlsData.INPUT_FIELD_INITIAL_STATE, "The initial state of the input field should be disabled");
+
 await dynamicControlsPage.clickOnEnableBtn();
 await verifyStateAfterEnable();
+
 await dynamicControlsPage.enterValueIntoInputField(DynamicControlsData.INPUT_TEXT_MIXED_CASE);
 assert.strictEqual(await dynamicControlsPage.getEnteredTextFromInputField(), DynamicControlsData.INPUT_TEXT_MIXED_CASE, "The entered text is wrong");
+
 await dynamicControlsPage.clickOnDisableBtn();
-
-assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" and progress bar are appeared`);
-await dynamicControlsPage.waitUntilInputDisabled();
-
-const inputState = await dynamicControlsPage.isInputFieldEnabled();
-console.log("Input state:", inputState);
-console.log("Value type:", typeof inputState);
-
-assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should became disabled`);
-assert.strictEqual(await dynamicControlsPage.getEnteredTextFromInputField(), DynamicControlsData.INPUT_TEXT_MIXED_CASE, `The displayed entered text is wrong, and now is ${await dynamicControlsPage.getEnteredTextFromInputField()}`);
-assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromDisableToEnable(), true, `The button title "${DynamicControlsData.DISABLE_BTN_TITLE}" should be changed to "${DynamicControlsData.ENABLE_BTN_TITLE}"`);
-assert.strictEqual(await dynamicControlsPage.isMsgAfterDisableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_DISABLE}" should appeared`);
+await verifyStateAfterDisable();
+assert.strictEqual(await dynamicControlsPage.isCorrectEnteredTextDisplayed(DynamicControlsData.INPUT_TEXT_MIXED_CASE), true, `The displayed entered text is wrong, and now is ${await dynamicControlsPage.getEnteredTextFromInputField()}`);
 });
 
 it("TC43 - Verify checkbox section state after refresh", async function() {
