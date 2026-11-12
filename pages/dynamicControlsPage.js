@@ -1,5 +1,5 @@
 const BasePage = require('../pages/basePage');
-const { By, until } = require('selenium-webdriver');
+const { By, until, Key } = require('selenium-webdriver');
 const DynamicControlsData = require('../testData/dynamicControlsData');
 
 class DynamicControlsPage extends BasePage {
@@ -276,6 +276,53 @@ class DynamicControlsPage extends BasePage {
         return await this.isElementDisplayed(this.locators.inputField) &&
         (await this.getEnteredTextFromInputField() === enteredText);
     }
+
+
+    async focusCheckbox() {
+        const targetCheckbox = await this.find(this.locators.checkboxForClick);
+        return await this.focusElementByTab(targetCheckbox, 10);
+    }
+
+    async isChedckboxFocused() {
+        const targetCheckbox = await this.find(this.locators.checkboxForClick);
+        return await this.isElementFocused(targetCheckbox);
+    }
+
+    async pressSpaceToCheckUncheckCheckbox() {
+        return await this.pressKey(this.locators.checkboxForClick, Key.SPACE);
+    }
+
+     async focusRemoveBtn() {
+        const targetRemoveBtn = await this.find(this.locators.removeBtn);
+        return await this.focusElementByTab(targetRemoveBtn, 10);
+    }
+
+    async isRemoveBtnFocused() {
+        const targetRemoveBtn = await this.find(this.locators.removeBtn);
+        return await this.isElementFocused(targetRemoveBtn);
+    }
+
+     async pressEnterOnRemoveBtn() {
+        return await this.pressKey(this.locators.removeBtn, Key.ENTER);
+    }
+
+     async focusAddBtn() {
+        const targetAddBtn = await this.find(this.locators.addBtn);
+        return await this.focusElementByTab(targetAddBtn, 10);
+    }
+
+    async isAddBtnFocused() {
+        const targetAddBtn = await this.find(this.locators.addBtn);
+        return await this.isElementFocused(targetAddBtn);
+    }
+
+    async pressEnterOnAddBtn() {
+        return await this.pressKey(this.locators.addBtn, Key.ENTER);
+    }
+
+
+
+
 
 
     

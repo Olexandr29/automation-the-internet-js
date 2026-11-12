@@ -158,7 +158,7 @@ assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControl
 assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button title "${DynamicControlsData.REMOVE_BTN_TITLE}" should be displayed`);
 });
 
-it.only("TC44 - Verify Iput field section state after refresh", async function() {
+it("TC44 - Verify Iput field section state after refresh", async function() {
 await dynamicControlsPage.clickOnEnableBtn();
 await verifyStateAfterEnable();
 
@@ -178,5 +178,46 @@ await driver.navigate().refresh();
 assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should be disabled`);
 assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The button title "${DynamicControlsData.ENABLE_BTN_TITLE}" should be displayed`);
 });
+
+it.only("TC45 - Navigate, select and change checkbox section state using keyboard", async function() {
+await dynamicControlsPage.focusCheckbox();
+assert.strictEqual(await dynamicControlsPage.isChedckboxFocused(), true, "The checkbox should be focused");
+
+await dynamicControlsPage.pressSpaceToCheckUncheckCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, `The checkbox should be checked`);
+
+await dynamicControlsPage.focusRemoveBtn();
+assert.strictEqual(await dynamicControlsPage.isRemoveBtnFocused(), true, `The "${DynamicControlsData.REMOVE_BTN_TITLE}" button should be focused`);
+
+await dynamicControlsPage.pressEnterOnRemoveBtn();
+await verifyStateAfterRemove();
+
+await dynamicControlsPage.focusAddBtn();
+assert.strictEqual(await dynamicControlsPage.isAddBtnFocused(), true, `The "${DynamicControlsData.ADD_BTN_TITLE}" button should be focused`);
+
+await dynamicControlsPage.pressEnterOnAddBtn();
+await verifyStateAfterAdd();
+
+// Step 7
+await dynamicControlsPage.focusCheckbox();
+assert.strictEqual(await dynamicControlsPage.isChedckboxFocused(), true, "The checkbox should be focused");
+await dynamicControlsPage.pressSpaceToCheckUncheckCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, `The checkbox should be checked`);
+
+// Step 8
+await dynamicControlsPage.focusRemoveBtn();
+assert.strictEqual(await dynamicControlsPage.isRemoveBtnFocused(), true, `The "${DynamicControlsData.REMOVE_BTN_TITLE}" button should be focused`);
+await dynamicControlsPage.pressEnterOnRemoveBtn();
+await verifyStateAfterRemove();
+
+// Step 9
+await dynamicControlsPage.focusAddBtn();
+assert.strictEqual(await dynamicControlsPage.isAddBtnFocused(), true, `The "${DynamicControlsData.ADD_BTN_TITLE}" button should be focused`);
+await dynamicControlsPage.pressEnterOnAddBtn();
+await verifyStateAfterAdd();
+
+});
+
+
 
 });
