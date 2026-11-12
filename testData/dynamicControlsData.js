@@ -17,7 +17,9 @@ const DynamicControlsData = {
     SAUCE_LABS_TEXT : "Sauce Labs",
     WAIT_TEXT : "Wait for it...",
     INPUT_FIELD_INITIAL_STATE : false,
-    MESSAGE_AFTER_ENABLE : "It's enabled!"
+    MESSAGE_AFTER_ENABLE : "It's enabled!",
+    MESSAGE_AFTER_DISABLE : "It's disabled!",
+    INPUT_TEXT_MIXED_CASE : "Hello"
 }
 
 module.exports = DynamicControlsData;

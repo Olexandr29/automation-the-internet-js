@@ -48,6 +48,11 @@ class BasePage{
         return await element.getText();
     }
 
+    async getAttributeValue(locator) {
+        const webElement = await this.find(locator);
+        return await webElement.getAttribute("value")
+    }
+
     async isElementDisplayed(locator) {
         try {
             const element = await this.find(locator);
@@ -116,6 +121,12 @@ class BasePage{
     async waitUntilElementIsEnabled(locator) {
         const element = await this.find(locator);
         await this.wait(until.elementIsEnabled(element));
+        return element;
+    }
+
+    async waitUntilElementIsDisabled(locator) {
+        const element = await this.find(locator);
+        await this.wait(until.elementIsDisabled(element));
         return element;
     }
 

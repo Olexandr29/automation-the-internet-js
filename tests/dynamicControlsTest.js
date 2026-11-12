@@ -4,7 +4,7 @@ const DynamicControlsPage = require('../pages/dynamicControlsPage')
 const assert = require('assert');
 const DynamicControlsData = require('../testData/dynamicControlsData');
 
-describe.only("Dynamic Controls test suite", function() {
+describe("Dynamic Controls test suite", function() {
     let driver;
     let homePage; 
     /**@type {DynamicControlsPage} */
@@ -33,6 +33,14 @@ async function verifyStateAfterAdd() {
     assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The checkbox is not displayed");
     assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromAddToRemove(), true, `The button title is not = '${DynamicControlsData.REMOVE_BTN_TITLE}' but = ${await dynamicControlsPage.getBtnTxtInCheckboxSection()}`)    
     assert.strictEqual(await dynamicControlsPage.isMsgAfterAddDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_REMOVE}" is not changed to "${DynamicControlsData.MESSAGE_AFTER_ADD}"`);
+}
+
+async function verifyStateAfterEnable() {
+assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" and progress bar are appeared`);
+await dynamicControlsPage.waitUntilInputIsEnabled();
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), true, `The state of the input field should became enabled`);
+assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromEnableToDisable(), true, `The button title "${DynamicControlsData.ENABLE_BTN_TITLE}" should be changed to "${DynamicControlsData.DISABLE_BTN_TITLE}"`);
+assert.strictEqual(await dynamicControlsPage.isMsgAfterEnableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_ENABLE}" should appeared`);
 }
 
 it("TC38 - Verify page content", async function() {
@@ -103,15 +111,25 @@ assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The ch
 assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 3, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 3 times at the page`);
 });
 
-it("TC42 -Enable and disable the Input field", async function() {
+it.only("TC42 -Enable and disable the Input field", async function() {
 assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), DynamicControlsData.INPUT_FIELD_INITIAL_STATE, "The initial state of the input field should be disabled");
-
 await dynamicControlsPage.clickOnEnableBtn();
+await verifyStateAfterEnable();
+await dynamicControlsPage.enterValueIntoInputField(DynamicControlsData.INPUT_TEXT_MIXED_CASE);
+assert.strictEqual(await dynamicControlsPage.getEnteredTextFromInputField(), DynamicControlsData.INPUT_TEXT_MIXED_CASE, "The entered text is wrong");
+await dynamicControlsPage.clickOnDisableBtn();
+
 assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" and progress bar are appeared`);
-await dynamicControlsPage.waitUntilInputIsEnabled();
-assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), true, `The state of the input field should became enabled`);
-assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromEnableToDisable(), true, `The button title "${DynamicControlsData.ENABLE_BTN_TITLE}" should be changed to "${DynamicControlsData.DISABLE_BTN_TITLE}"`);
-assert.strictEqual(await dynamicControlsPage.isMsgAfterEnableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_ENABLE}" should appeared`);
+await dynamicControlsPage.waitUntilInputDisabled();
+
+const inputState = await dynamicControlsPage.isInputFieldEnabled();
+console.log("Input state:", inputState);
+console.log("Value type:", typeof inputState);
+
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should became disabled`);
+assert.strictEqual(await dynamicControlsPage.getEnteredTextFromInputField(), DynamicControlsData.INPUT_TEXT_MIXED_CASE, `The displayed entered text is wrong, and now is ${await dynamicControlsPage.getEnteredTextFromInputField()}`);
+assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromDisableToEnable(), true, `The button title "${DynamicControlsData.DISABLE_BTN_TITLE}" should be changed to "${DynamicControlsData.ENABLE_BTN_TITLE}"`);
+assert.strictEqual(await dynamicControlsPage.isMsgAfterDisableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_DISABLE}" should appeared`);
 });
 
 it("TC43 - Verify checkbox section state after refresh", async function() {

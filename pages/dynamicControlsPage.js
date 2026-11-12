@@ -233,17 +233,47 @@ class DynamicControlsPage extends BasePage {
 
     async getMsgAfterEnable() {
         return await this.getText(this.locators.messageInInputSection) 
-
     }
+
     async isMsgAfterEnableDisplayed() {
         return await this.isElementDisplayed(this.locators.messageInInputSection) &&
         await this.getMsgAfterEnable() === DynamicControlsData.MESSAGE_AFTER_ENABLE
     }
 
+    async enterValueIntoInputField(value) {
+        return await this.type(this.locators.inputField, value);
+    }
+
+    async getEnteredTextFromInputField() {
+        return await this.getAttributeValue(this.locators.inputField)
+    }
+
     async clickOnDisableBtn() {
         return await this.click(this.locators.disableBtn)
     }
- 
+
+     async isBtnTxtChangedFromDisableToEnable() {
+        const button = await this.find(this.locators.buttonInInputSection);
+        await this.wait(until.elementTextIs(button, DynamicControlsData.ENABLE_BTN_TITLE));
+        return await this.getBtnTxtInInputSection() === DynamicControlsData.ENABLE_BTN_TITLE &&
+        await this.getBtnTxtInInputSection() !== DynamicControlsData.DISABLE_BTN_TITLE
+    }
+
+    async getMsgAfterDisable() {
+        return await this.getText(this.locators.messageInInputSection) 
+    }
+
+     async isMsgAfterDisableDisplayed() {
+        return await this.isElementDisplayed(this.locators.messageInInputSection) &&
+        await this.getMsgAfterDisable() === DynamicControlsData.MESSAGE_AFTER_DISABLE
+    }
+
+    async waitUntilInputDisabled() {
+        return await this.waitUntilElementIsDisabled(this.locators.inputField);
+    }
+
+
+    
 
 
 
