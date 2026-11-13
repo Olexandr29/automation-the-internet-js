@@ -197,25 +197,23 @@ assert.strictEqual(await dynamicControlsPage.isAddBtnFocused(), true, `The "${Dy
 
 await dynamicControlsPage.pressEnterOnAddBtn();
 await verifyStateAfterAdd();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should have unchecked state`);
 
-// Step 7
 await dynamicControlsPage.focusCheckbox();
 assert.strictEqual(await dynamicControlsPage.isChedckboxFocused(), true, "The checkbox should be focused");
 await dynamicControlsPage.pressSpaceToCheckUncheckCheckbox();
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, `The checkbox should be checked`);
 
-// Step 8
 await dynamicControlsPage.focusRemoveBtn();
 assert.strictEqual(await dynamicControlsPage.isRemoveBtnFocused(), true, `The "${DynamicControlsData.REMOVE_BTN_TITLE}" button should be focused`);
 await dynamicControlsPage.pressEnterOnRemoveBtn();
 await verifyStateAfterRemove();
 
-// Step 9
 await dynamicControlsPage.focusAddBtn();
 assert.strictEqual(await dynamicControlsPage.isAddBtnFocused(), true, `The "${DynamicControlsData.ADD_BTN_TITLE}" button should be focused`);
 await dynamicControlsPage.pressEnterOnAddBtn();
 await verifyStateAfterAdd();
-
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should have unchecked state`);
 });
 
 
