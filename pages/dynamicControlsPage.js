@@ -277,7 +277,6 @@ class DynamicControlsPage extends BasePage {
         (await this.getEnteredTextFromInputField() === enteredText);
     }
 
-
     async focusCheckbox() {
         const targetCheckbox = await this.find(this.locators.checkboxForClick);
         return await this.focusElementByTab(targetCheckbox, 10);
@@ -292,7 +291,7 @@ class DynamicControlsPage extends BasePage {
         return await this.pressKey(this.locators.checkboxForClick, Key.SPACE);
     }
 
-     async focusRemoveBtn() {
+    async focusRemoveBtn() {
         const targetRemoveBtn = await this.find(this.locators.removeBtn);
         return await this.focusElementByTab(targetRemoveBtn, 10);
     }
@@ -319,6 +318,47 @@ class DynamicControlsPage extends BasePage {
     async pressEnterOnAddBtn() {
         return await this.pressKey(this.locators.addBtn, Key.ENTER);
     }
+
+    async focusEnableBtn() {
+        const targetEnableBtn = await this.find(this.locators.enableBtn);
+        return await this.focusElementByTab(targetEnableBtn, 10);
+    }
+
+    async isEnableBtnFocused() {
+        const targetEnableBtn = await this.find(this.locators.enableBtn);
+        return await this.isElementFocused(targetEnableBtn);
+    }
+
+    async pressEnterOnEnableBtn() {
+        return await this.pressKey(this.locators.enableBtn, Key.ENTER);
+    }
+
+    async focusInputField() {
+        const targetInputField = await this.find(this.locators.inputField);
+        return await this.focusElementByTab(targetInputField, 10);
+    }
+
+    async isInputFieldFocused() {
+        const targetInputField = await this.find(this.locators.inputField);
+        return await this.isElementFocused(targetInputField);
+    }
+
+
+
+    async focusDisableBtn() {
+        const targetDisableBtn = await this.find(this.locators.disableBtn);
+        return await this.focusElementByTab(targetDisableBtn, 10);
+    }
+
+    async isDisableBtnFocused() {
+        const targetDisableBtn = await this.find(this.locators.disableBtn);
+        return await this.isElementFocused(targetDisableBtn);
+    }
+
+    async pressEnterOnDisableBtn() {
+        return await this.pressKey(this.locators.disableBtn, Key.ENTER);
+    }
+
 
 
 

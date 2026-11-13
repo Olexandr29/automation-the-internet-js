@@ -20,7 +20,8 @@ const DynamicControlsData = {
     MESSAGE_AFTER_ENABLE : "It's enabled!",
     MESSAGE_AFTER_DISABLE : "It's disabled!",
     INPUT_TEXT_MIXED_CASE : "Hello",
-    INPUT_TEXT_ALPHANUMERIC_SPECIAL_CHARS : "Input123$"
+    INPUT_TEXT_ALPHANUMERIC_SPECIAL_CHARS : "Input123$",
+    INPUT_TEXT_SPECIAL_CHAR_AT_START : "$And40"
 }
 
 module.exports = DynamicControlsData;

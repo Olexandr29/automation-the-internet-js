@@ -179,7 +179,7 @@ assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The 
 assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The button title "${DynamicControlsData.ENABLE_BTN_TITLE}" should be displayed`);
 });
 
-it.only("TC45 - Navigate, select and change checkbox section state using keyboard", async function() {
+it("TC45 - Navigate, select and change checkbox section state using keyboard", async function() {
 await dynamicControlsPage.focusCheckbox();
 assert.strictEqual(await dynamicControlsPage.isChedckboxFocused(), true, "The checkbox should be focused");
 
@@ -216,6 +216,26 @@ await verifyStateAfterAdd();
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should have unchecked state`);
 });
 
+it.only("TC46 - Navigate, select and change input field section state using keyboard", async function() {
+await dynamicControlsPage.focusEnableBtn();
+assert.strictEqual(await dynamicControlsPage.isEnableBtnFocused(), true, `The "${DynamicControlsData.ENABLE_BTN_TITLE}" button should be focused`);
+
+await dynamicControlsPage.pressEnterOnEnableBtn();
+await verifyStateAfterEnable();
+
+await dynamicControlsPage.focusInputField();
+assert.strictEqual(await dynamicControlsPage.isInputFieldFocused(), true, `The input field should be focused`);
+
+await dynamicControlsPage.enterValueIntoInputField(DynamicControlsData.INPUT_TEXT_SPECIAL_CHAR_AT_START);
+assert.strictEqual(await dynamicControlsPage.isCorrectEnteredTextDisplayed(DynamicControlsData.INPUT_TEXT_SPECIAL_CHAR_AT_START), true, ``);
+
+await dynamicControlsPage.focusDisableBtn();
+assert.strictEqual(await dynamicControlsPage.isDisableBtnFocused(), true, `The "${DynamicControlsData.DISABLE_BTN_TITLE}" button should be focused`);
+
+await dynamicControlsPage.pressEnterOnDisableBtn();
+await verifyStateAfterDisable();
+assert.strictEqual(await dynamicControlsPage.isCorrectEnteredTextDisplayed(DynamicControlsData.INPUT_TEXT_SPECIAL_CHAR_AT_START), true, ``);
+});
 
 
 });
