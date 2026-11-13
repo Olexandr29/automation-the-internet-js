@@ -10,7 +10,6 @@ class BasePage{
         this.driver = driver;
         this.wait = (condition, timeout = DEFAULT_TIMEOUT_MS) => 
             this.driver.wait(condition, timeout);
-
     }
 
     async find(locator) {
@@ -49,6 +48,11 @@ class BasePage{
         return await element.getText();
     }
 
+    async getAttributeValue(locator) {
+        const webElement = await this.find(locator);
+        return await webElement.getAttribute("value")
+    }
+
     async isElementDisplayed(locator) {
         try {
             const element = await this.find(locator);
@@ -59,6 +63,10 @@ class BasePage{
         }    
     }
 
+    async isSpecificPageLoaded(){
+        return await this.driver.executeScript("return document.readyState === 'complete';");
+    }
+    
     async waitForUrlContains(path) {
         await this.wait(until.urlContains(path));
     }
@@ -92,7 +100,37 @@ class BasePage{
         return await Reporter.step(`Observe the ${elementName} is displayed correctly`, async () => {
             return await this.driver.executeScript("return arguments[0].complete && arguments[0].naturalWidth > 0;", targetElement);
         });
-        }
+    }
+
+    async waitUntilElementAbsent(locator) {
+        return await this.wait(async driver => {
+            const elements = await driver.findElements(locator);
+            if (elements.length === 0) {
+                return true;
+            }
+            try {
+                return !(await elements[0].isDisplayed());
+            } catch (error) {
+                if (error.name === "StaleElementReferenceError") {
+                    return true;
+                } throw error;
+            }
+        })
+    }
+
+    async waitUntilElementIsEnabled(locator) {
+        const element = await this.find(locator);
+        await this.wait(until.elementIsEnabled(element));
+        return element;
+    }
+
+    async waitUntilElementIsDisabled(locator) {
+        const element = await this.find(locator);
+        await this.wait(until.elementIsDisabled(element));
+        return element;
+    }
+
+    
     
 
 

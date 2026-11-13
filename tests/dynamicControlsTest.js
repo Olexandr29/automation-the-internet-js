@@ -1,0 +1,279 @@
+const HomePage = require('../pages/homePage');
+const { createDriver, closeDriver } = require('./testSetup');
+const DynamicControlsPage = require('../pages/dynamicControlsPage')
+const assert = require('assert');
+const DynamicControlsData = require('../testData/dynamicControlsData');
+const Reporter = require("../utils/reporter");
+const { allure } = require("allure-mocha/runtime");
+
+describe("Dynamic Controls test suite", function() {
+    let driver;
+    let homePage; 
+    /**@type {DynamicControlsPage} */
+    let dynamicControlsPage;
+
+beforeEach(async function() {
+    driver = await createDriver();
+    homePage = new HomePage(driver);
+    await Reporter.step("Open Dynamic Controls page", async () => {
+    dynamicControlsPage = await homePage.openDynamicControlsPage();
+    });
+});
+
+afterEach(async function(){
+    await closeDriver(driver, this.currentTest);
+});
+
+async function verifyStateAfterRemove() {
+    assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" or progress bar are not displayed`);
+    assert.strictEqual(await dynamicControlsPage.isCheckboxAbsentOrHidden(), true, "The checkbox is not removed and now displayed at the page");
+    assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromRemoveToAdd(), true, `The button title is not changes from '${DynamicControlsData.REMOVE_BTN_TITLE}' to '${DynamicControlsData.ADD_BTN_TITLE}`);
+    assert.strictEqual(await dynamicControlsPage.isMsgAfterRemoveDisplayed(), true, `The message ${DynamicControlsData.MESSAGE_AFTER_REMOVE} is not displayed, but displayed - '${await dynamicControlsPage.getMsgAfterRemove()}'`);
+}
+
+async function verifyStateAfterAdd() {
+    assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text '${DynamicControlsData.WAIT_TEXT}' and progress bar are not displayed`);
+    await dynamicControlsPage.waitUntilCheckboxisEnabled();
+    assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The checkbox is not displayed");
+    assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromAddToRemove(), true, `The button title is not = '${DynamicControlsData.REMOVE_BTN_TITLE}' but = ${await dynamicControlsPage.getBtnTxtInCheckboxSection()}`)    
+    assert.strictEqual(await dynamicControlsPage.isMsgAfterAddDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_REMOVE}" is not changed to "${DynamicControlsData.MESSAGE_AFTER_ADD}"`);
+}
+
+async function verifyStateAfterEnable() {
+assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" and progress bar are appeared`);
+await dynamicControlsPage.waitUntilInputIsEnabled();
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), true, `The state of the input field should became enabled`);
+assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromEnableToDisable(), true, `The button title "${DynamicControlsData.ENABLE_BTN_TITLE}" should be changed to "${DynamicControlsData.DISABLE_BTN_TITLE}"`);
+assert.strictEqual(await dynamicControlsPage.isMsgAfterEnableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_ENABLE}" should appeared`);
+}
+
+async function verifyStateAfterDisable() {
+assert.strictEqual(await dynamicControlsPage.isWaitTextAndProgressBarDisplayed(), true, `The text "${DynamicControlsData.WAIT_TEXT}" and progress bar are appeared`);
+await dynamicControlsPage.waitUntilInputDisabled();
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should became disabled`);
+assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromDisableToEnable(), true, `The button title "${DynamicControlsData.DISABLE_BTN_TITLE}" should be changed to "${DynamicControlsData.ENABLE_BTN_TITLE}"`);
+assert.strictEqual(await dynamicControlsPage.isMsgAfterDisableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_DISABLE}" should appeared`);
+}
+
+it.only("TC38 - Verify page content", async function() {
+    assert.strictEqual(await driver.getCurrentUrl(), "https://the-internet.herokuapp.com/dynamic_controls")
+    assert.strictEqual(await dynamicControlsPage.isSpecificPageLoaded(), true, "The page is not completely loaded");
+    
+    await Reporter.step(`Observe the header visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isHeaderDisplayed(), true, `The page header '${DynamicControlsData.HEADER}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe the paragraph visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isParagraphDisplayed(), true, "The content of the paragraph is not correct");
+    });
+
+    await Reporter.step(`Observe the checkbox section visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isCheckboxSectionSubheaderDisplayed(), true, `The subheader of checkbox section with text '${DynamicControlsData.SUBHEADER_OF_CHECKBOX_SECTION}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe visibility of the checkbox with the text "${DynamicControlsData.CHECKBOX_TITLE}"`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, `The checkbox title is not the '${DynamicControlsData.CHECKBOX_TITLE}'`)
+    });
+
+    await Reporter.step(`Observe the "${DynamicControlsData.REMOVE_BTN_TITLE}" button visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button '${DynamicControlsData.REMOVE_BTN_TITLE}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe the second subheader "${DynamicControlsData.SUBHEADER_OF_INPUT_SECTION}" visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isInputSubheaderDisplayed(), true, `The subheader of input section with text '${DynamicControlsData.SUBHEADER_OF_CHECKBOX_SECTION}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe the input field visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isInputFieldDisplayed(), true, "The input field is not displayed");
+    });
+
+    await Reporter.step(`Observe the "${DynamicControlsData.ENABLE_BTN_TITLE}" button visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The '${DynamicControlsData.ENABLE_BTN_TITLE}' button is not displayed`);
+    });
+
+    await Reporter.step(`Observe the footer visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isFooterDisplayed(), true, `The footer '${DynamicControlsData.FOOTER}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe the "${DynamicControlsData.SAUCE_LABS_TEXT}" link visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isSeleniumLinkDisplayed(), true, `The link ${DynamicControlsData.SELENIUM_TEXT} is not displayed`);
+    });
+
+    await Reporter.step(`Observe the "${DynamicControlsData.SELENIUM_TEXT}" link visibility`, async () => {
+    assert.strictEqual(await dynamicControlsPage.isSauceLabsLinkDisplayed(), true, `The link ${DynamicControlsData.SAUCE_LABS_TEXT} is not displayed`);
+    });
+
+});
+
+it("TC39 - Verify checkbox initial state and changes", async function() {
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox is wrong");
+await dynamicControlsPage.clickOnCheckbox()
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not checked afer click");
+await dynamicControlsPage.clickOnCheckbox()
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not unchecked after second click");
+});
+
+it("TC40 - Remove and add checkbox", async function() {
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox is wrong");
+assert.strictEqual(await dynamicControlsPage.getCheckboxText(), DynamicControlsData.CHECKBOX_TITLE, "the title is not the same")
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove()
+await dynamicControlsPage.clickOnAddBtn();
+await verifyStateAfterAdd()
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not uncheked");
+});
+
+it("TC41 -Remove and add checked checkbox", async function() {
+    this.timeout(31000);
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, `The initial state of the checkbox should be unchecked`);
+
+await dynamicControlsPage.clickOnCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not became checked");
+
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+
+await dynamicControlsPage.clickOnAddBtn();
+await verifyStateAfterAdd();
+
+await dynamicControlsPage.clickOnCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not became checked");
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+assert.strictEqual(await dynamicControlsPage.isCorrectTxtDisplayedAfterRemoveCheckbox(), true, ` Just text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed after removing checkbox`);
+
+await dynamicControlsPage.clickOnAddBtn();
+await verifyStateAfterAdd();
+
+await dynamicControlsPage.clickOnCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, "The checkbox is not became checked");
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 2, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 2 times at the page`);
+
+await dynamicControlsPage.clickOnAddBtn();
+await verifyStateAfterAdd();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should be with unchecked state `);
+assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 3, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 3 times at the page`);
+});
+
+it("TC42 -Enable and disable the Input field", async function() {
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), DynamicControlsData.INPUT_FIELD_INITIAL_STATE, "The initial state of the input field should be disabled");
+
+await dynamicControlsPage.clickOnEnableBtn();
+await verifyStateAfterEnable();
+
+await dynamicControlsPage.enterValueIntoInputField(DynamicControlsData.INPUT_TEXT_MIXED_CASE);
+assert.strictEqual(await dynamicControlsPage.getEnteredTextFromInputField(), DynamicControlsData.INPUT_TEXT_MIXED_CASE, "The entered text is wrong");
+
+await dynamicControlsPage.clickOnDisableBtn();
+await verifyStateAfterDisable();
+assert.strictEqual(await dynamicControlsPage.isCorrectEnteredTextDisplayed(DynamicControlsData.INPUT_TEXT_MIXED_CASE), true, `The displayed entered text is wrong, and now is ${await dynamicControlsPage.getEnteredTextFromInputField()}`);
+});
+
+it("TC43 - Verify checkbox section state after refresh", async function() {
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+
+await driver.navigate().refresh();
+assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The Checkbox shold be displayed after refresh the page");
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox = unchecked should be displayed");
+assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button title "${DynamicControlsData.REMOVE_BTN_TITLE}" should be displayed`);
+
+await dynamicControlsPage.clickOnCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, `The checkbox state should became cheked`);
+
+await dynamicControlsPage.clickOnRemoveBtn();
+await verifyStateAfterRemove();
+
+await dynamicControlsPage.clickOnAddBtn();
+await verifyStateAfterAdd();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should have unchecked state`);
+
+await driver.navigate().refresh();
+assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The Checkbox shold be displayed after refresh the page");
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox = unchecked should be displayed");
+assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button title "${DynamicControlsData.REMOVE_BTN_TITLE}" should be displayed`);
+});
+
+it("TC44 - Verify Iput field section state after refresh", async function() {
+await dynamicControlsPage.clickOnEnableBtn();
+await verifyStateAfterEnable();
+
+await driver.navigate().refresh();
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should be disabled`);
+assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The button title ${DynamicControlsData.ENABLE_BTN_TITLE}" should be displayed`);
+
+await dynamicControlsPage.clickOnEnableBtn();
+await verifyStateAfterEnable();
+await dynamicControlsPage.enterValueIntoInputField(DynamicControlsData.INPUT_TEXT_ALPHANUMERIC_SPECIAL_CHARS);
+assert.strictEqual(await dynamicControlsPage.isCorrectEnteredTextDisplayed(DynamicControlsData.INPUT_TEXT_ALPHANUMERIC_SPECIAL_CHARS), true, `The entered text should be displayed into the input field`);
+
+await dynamicControlsPage.clickOnDisableBtn();
+await verifyStateAfterDisable();
+
+await driver.navigate().refresh();
+assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should be disabled`);
+assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The button title "${DynamicControlsData.ENABLE_BTN_TITLE}" should be displayed`);
+});
+
+it("TC45 - Navigate, select and change checkbox section state using keyboard", async function() {
+await dynamicControlsPage.focusCheckbox();
+assert.strictEqual(await dynamicControlsPage.isChedckboxFocused(), true, "The checkbox should be focused");
+
+await dynamicControlsPage.pressSpaceToCheckUncheckCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, `The checkbox should be checked`);
+
+await dynamicControlsPage.focusRemoveBtn();
+assert.strictEqual(await dynamicControlsPage.isRemoveBtnFocused(), true, `The "${DynamicControlsData.REMOVE_BTN_TITLE}" button should be focused`);
+
+await dynamicControlsPage.pressEnterOnRemoveBtn();
+await verifyStateAfterRemove();
+
+await dynamicControlsPage.focusAddBtn();
+assert.strictEqual(await dynamicControlsPage.isAddBtnFocused(), true, `The "${DynamicControlsData.ADD_BTN_TITLE}" button should be focused`);
+
+await dynamicControlsPage.pressEnterOnAddBtn();
+await verifyStateAfterAdd();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should have unchecked state`);
+
+await dynamicControlsPage.focusCheckbox();
+assert.strictEqual(await dynamicControlsPage.isChedckboxFocused(), true, "The checkbox should be focused");
+await dynamicControlsPage.pressSpaceToCheckUncheckCheckbox();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), true, `The checkbox should be checked`);
+
+await dynamicControlsPage.focusRemoveBtn();
+assert.strictEqual(await dynamicControlsPage.isRemoveBtnFocused(), true, `The "${DynamicControlsData.REMOVE_BTN_TITLE}" button should be focused`);
+await dynamicControlsPage.pressEnterOnRemoveBtn();
+await verifyStateAfterRemove();
+
+await dynamicControlsPage.focusAddBtn();
+assert.strictEqual(await dynamicControlsPage.isAddBtnFocused(), true, `The "${DynamicControlsData.ADD_BTN_TITLE}" button should be focused`);
+await dynamicControlsPage.pressEnterOnAddBtn();
+await verifyStateAfterAdd();
+assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should have unchecked state`);
+});
+
+it("TC46 - Navigate, select and change input field section state using keyboard", async function() {
+await dynamicControlsPage.focusEnableBtn();
+assert.strictEqual(await dynamicControlsPage.isEnableBtnFocused(), true, `The "${DynamicControlsData.ENABLE_BTN_TITLE}" button should be focused`);
+
+await dynamicControlsPage.pressEnterOnEnableBtn();
+await verifyStateAfterEnable();
+
+await dynamicControlsPage.focusInputField();
+assert.strictEqual(await dynamicControlsPage.isInputFieldFocused(), true, `The input field should be focused`);
+
+await dynamicControlsPage.enterValueIntoInputField(DynamicControlsData.INPUT_TEXT_SPECIAL_CHAR_AT_START);
+assert.strictEqual(await dynamicControlsPage.isCorrectEnteredTextDisplayed(DynamicControlsData.INPUT_TEXT_SPECIAL_CHAR_AT_START), true, ``);
+
+await dynamicControlsPage.focusDisableBtn();
+assert.strictEqual(await dynamicControlsPage.isDisableBtnFocused(), true, `The "${DynamicControlsData.DISABLE_BTN_TITLE}" button should be focused`);
+
+await dynamicControlsPage.pressEnterOnDisableBtn();
+await verifyStateAfterDisable();
+assert.strictEqual(await dynamicControlsPage.isCorrectEnteredTextDisplayed(DynamicControlsData.INPUT_TEXT_SPECIAL_CHAR_AT_START), true, ``);
+});
+
+
+});
