@@ -1,6 +1,7 @@
 const BasePage = require('../pages/basePage');
 const { By, until, Key } = require('selenium-webdriver');
 const DynamicControlsData = require('../testData/dynamicControlsData');
+const Reporter = require("../utils/reporter");
 
 class DynamicControlsPage extends BasePage {
     constructor(driver) {   
@@ -36,9 +37,9 @@ class DynamicControlsPage extends BasePage {
         return (
         await this.isElementDisplayed(this.locators.header) && 
         (await this.getText(this.locators.header) === DynamicControlsData.HEADER)
-        );
+        ); 
     }
-
+    
     async isParagraphDisplayed() {
         return (
             await this.isElementDisplayed(this.locators.paragraph) &&
@@ -342,8 +343,6 @@ class DynamicControlsPage extends BasePage {
         const targetInputField = await this.find(this.locators.inputField);
         return await this.isElementFocused(targetInputField);
     }
-
-
 
     async focusDisableBtn() {
         const targetDisableBtn = await this.find(this.locators.disableBtn);

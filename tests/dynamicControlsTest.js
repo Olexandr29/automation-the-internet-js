@@ -3,6 +3,8 @@ const { createDriver, closeDriver } = require('./testSetup');
 const DynamicControlsPage = require('../pages/dynamicControlsPage')
 const assert = require('assert');
 const DynamicControlsData = require('../testData/dynamicControlsData');
+const Reporter = require("../utils/reporter");
+const { allure } = require("allure-mocha/runtime");
 
 describe("Dynamic Controls test suite", function() {
     let driver;
@@ -13,7 +15,9 @@ describe("Dynamic Controls test suite", function() {
 beforeEach(async function() {
     driver = await createDriver();
     homePage = new HomePage(driver);
+    await Reporter.step("Open Dynamic Controls page", async () => {
     dynamicControlsPage = await homePage.openDynamicControlsPage();
+    });
 });
 
 afterEach(async function(){
@@ -51,20 +55,54 @@ assert.strictEqual(await dynamicControlsPage.isBtnTxtChangedFromDisableToEnable(
 assert.strictEqual(await dynamicControlsPage.isMsgAfterDisableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_DISABLE}" should appeared`);
 }
 
-it("TC38 - Verify page content", async function() {
+it.only("TC38 - Verify page content", async function() {
     assert.strictEqual(await driver.getCurrentUrl(), "https://the-internet.herokuapp.com/dynamic_controls")
     assert.strictEqual(await dynamicControlsPage.isSpecificPageLoaded(), true, "The page is not completely loaded");
+    
+    await Reporter.step(`Observe the header visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isHeaderDisplayed(), true, `The page header '${DynamicControlsData.HEADER}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe the paragraph visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isParagraphDisplayed(), true, "The content of the paragraph is not correct");
+    });
+
+    await Reporter.step(`Observe the checkbox section visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isCheckboxSectionSubheaderDisplayed(), true, `The subheader of checkbox section with text '${DynamicControlsData.SUBHEADER_OF_CHECKBOX_SECTION}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe visibility of the checkbox with the text "${DynamicControlsData.CHECKBOX_TITLE}"`, async () => {
     assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, `The checkbox title is not the '${DynamicControlsData.CHECKBOX_TITLE}'`)
+    });
+
+    await Reporter.step(`Observe the "${DynamicControlsData.REMOVE_BTN_TITLE}" button visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button '${DynamicControlsData.REMOVE_BTN_TITLE}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe the second subheader "${DynamicControlsData.SUBHEADER_OF_INPUT_SECTION}" visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isInputSubheaderDisplayed(), true, `The subheader of input section with text '${DynamicControlsData.SUBHEADER_OF_CHECKBOX_SECTION}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe the input field visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isInputFieldDisplayed(), true, "The input field is not displayed");
+    });
+
+    await Reporter.step(`Observe the "${DynamicControlsData.ENABLE_BTN_TITLE}" button visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The '${DynamicControlsData.ENABLE_BTN_TITLE}' button is not displayed`);
+    });
+
+    await Reporter.step(`Observe the footer visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isFooterDisplayed(), true, `The footer '${DynamicControlsData.FOOTER}' is not displayed`);
+    });
+
+    await Reporter.step(`Observe the "${DynamicControlsData.SAUCE_LABS_TEXT}" link visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isSeleniumLinkDisplayed(), true, `The link ${DynamicControlsData.SELENIUM_TEXT} is not displayed`);
+    });
+
+    await Reporter.step(`Observe the "${DynamicControlsData.SELENIUM_TEXT}" link visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isSauceLabsLinkDisplayed(), true, `The link ${DynamicControlsData.SAUCE_LABS_TEXT} is not displayed`);
+    });
+
 });
 
 it("TC39 - Verify checkbox initial state and changes", async function() {
@@ -216,7 +254,7 @@ await verifyStateAfterAdd();
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should have unchecked state`);
 });
 
-it.only("TC46 - Navigate, select and change input field section state using keyboard", async function() {
+it("TC46 - Navigate, select and change input field section state using keyboard", async function() {
 await dynamicControlsPage.focusEnableBtn();
 assert.strictEqual(await dynamicControlsPage.isEnableBtnFocused(), true, `The "${DynamicControlsData.ENABLE_BTN_TITLE}" button should be focused`);
 
