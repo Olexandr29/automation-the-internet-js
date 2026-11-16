@@ -30,19 +30,25 @@ class BasePage{
         return elements[number - 1];
     }
     
-    async click(locator, text = " ") {
-        await Reporter.step(`${text}`, async () => {
+    async click(locator, text = "") {
         const element = await this.find(locator);
-        await element.click()
+        if(text) {
+            await Reporter.step(`${text}`, async () => {
+                await element.click()
+            });
+        } else {
+            await element.click()
+        }
         return element;
-        });
     }
 
-    async type(locator, text) {
+    async type(locator, value = "***", field ) {
+        return await Reporter.step(`Enter the value '${value}' into the ${field} field`, async () => {
         const element = await this.find(locator);
         await element.clear();
-        await element.sendKeys(text);
+        await element.sendKeys(value);
         return element;
+        });
     }
 
     async getText(locator) {

@@ -163,7 +163,7 @@ assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The ch
 assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 3, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 3 times at the page`);
 });
 
-it("TC42 - Enable and disable the Input field", async function() {
+it.only("TC42 - Enable and disable the Input field", async function() {
 await Reporter.step(`Observe the Chekbox initial state`, async () => {
 assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), DynamicControlsData.INPUT_FIELD_INITIAL_STATE, "The initial state of the input field should be disabled");
 });

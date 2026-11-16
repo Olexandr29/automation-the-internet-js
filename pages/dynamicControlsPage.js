@@ -242,9 +242,7 @@ class DynamicControlsPage extends BasePage {
     }
 
     async enterValueIntoInputField(value) {
-        return await Reporter.step(`Enter the value '${value}' into the input field`, async () => {
-        return await this.type(this.locators.inputField, value);
-        });
+        return await this.type(this.locators.inputField, value, 'Input');
     }
 
     async getEnteredTextFromInputField() {
