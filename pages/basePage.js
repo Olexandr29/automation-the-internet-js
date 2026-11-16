@@ -30,10 +30,12 @@ class BasePage{
         return elements[number - 1];
     }
     
-    async click(locator) {
+    async click(locator, text = " ") {
+        await Reporter.step(`${text}`, async () => {
         const element = await this.find(locator);
         await element.click()
         return element;
+        });
     }
 
     async type(locator, text) {

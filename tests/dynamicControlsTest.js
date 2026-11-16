@@ -6,13 +6,14 @@ const DynamicControlsData = require('../testData/dynamicControlsData');
 const Reporter = require("../utils/reporter");
 const { allure } = require("allure-mocha/runtime");
 
-describe("Dynamic Controls test suite", function() {
+describe.only("Dynamic Controls test suite", function() {
     let driver;
     let homePage; 
     /**@type {DynamicControlsPage} */
     let dynamicControlsPage;
 
 beforeEach(async function() {
+    await allure.feature("Dynamic Controls");
     driver = await createDriver();
     homePage = new HomePage(driver);
     await Reporter.step("Open Dynamic Controls page", async () => {

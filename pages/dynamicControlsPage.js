@@ -75,10 +75,7 @@ class DynamicControlsPage extends BasePage {
     }
 
     async clickOnCheckbox() {
-        return await Reporter.step(`Click on the Checkbox`, async () => {
-        return await this.click(this.locators.checkboxForClick);
-        });
-
+        return await this.click(this.locators.checkboxForClick, `Click on the Checkbox`);
     }
 
     async isRemoveButotnDisplayed() {
@@ -89,16 +86,11 @@ class DynamicControlsPage extends BasePage {
     }
 
     async clickOnRemoveBtn() {
-        return await Reporter.step(`Click on the Remove button`, async () => {
-        return await this.click(this.locators.removeBtn);
-        });
-
+        return await this.click(this.locators.removeBtn, `Click on the Remove button`);
     }
 
     async clickOnAddBtn() {
-        return await Reporter.step(`Click on the Add button`, async () => {
-        return await this.click(this.locators.addBtn);
-        });
+        return await this.click(this.locators.addBtn, `Click on the Add button`);
     }
     
     async isInputSubheaderDisplayed() {
@@ -228,9 +220,7 @@ class DynamicControlsPage extends BasePage {
     }
 
      async clickOnEnableBtn() {
-        return await Reporter.step(`Click on the Enable button`, async () => {
-        return await this.click(this.locators.enableBtn);
-        });
+        return await this.click(this.locators.enableBtn, `Click on the Enable button`);
     }
 
      async getBtnTxtInInputSection() {
@@ -262,9 +252,7 @@ class DynamicControlsPage extends BasePage {
     }
 
     async clickOnDisableBtn() {
-        return await Reporter.step(`Click on the Disable button`, async () => {
-        return await this.click(this.locators.disableBtn);
-        });
+        return await this.click(this.locators.disableBtn, `Click on the Disable button`);
     }
 
      async isBtnTxtChangedFromDisableToEnable() {
