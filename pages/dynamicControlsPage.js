@@ -371,18 +371,6 @@ class DynamicControlsPage extends BasePage {
     }
 
 
-
-
-
-
-
-    
-
-
-
-
-
-
 }
 
 module.exports = DynamicControlsPage;
