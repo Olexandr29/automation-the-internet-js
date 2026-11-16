@@ -71,8 +71,8 @@ class BasePage{
         await this.wait(until.urlContains(path));
     }
 
-    async pressKey(locator, specificKey) {
-        await Reporter.step(`Press ${getKeyName(specificKey)} key`, async () => {
+    async pressKey(locator, specificKey, onWebelement = " ") {
+        await Reporter.step(`Press ${getKeyName(specificKey)} key ${onWebelement}`, async () => {
         const element = await this.find(locator);
         await element.sendKeys(specificKey);
         });

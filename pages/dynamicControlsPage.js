@@ -75,7 +75,10 @@ class DynamicControlsPage extends BasePage {
     }
 
     async clickOnCheckbox() {
-        return await this.click(this.locators.checkboxForClick)
+        return await Reporter.step(`Click on the Checkbox`, async () => {
+        return await this.click(this.locators.checkboxForClick);
+        });
+
     }
 
     async isRemoveButotnDisplayed() {
@@ -86,11 +89,16 @@ class DynamicControlsPage extends BasePage {
     }
 
     async clickOnRemoveBtn() {
-        return await this.click(this.locators.removeBtn)
+        return await Reporter.step(`Click on the Remove button`, async () => {
+        return await this.click(this.locators.removeBtn);
+        });
+
     }
 
     async clickOnAddBtn() {
-        return await this.click(this.locators.addBtn)
+        return await Reporter.step(`Click on the Add button`, async () => {
+        return await this.click(this.locators.addBtn);
+        });
     }
     
     async isInputSubheaderDisplayed() {
@@ -220,7 +228,9 @@ class DynamicControlsPage extends BasePage {
     }
 
      async clickOnEnableBtn() {
-        return await this.click(this.locators.enableBtn)
+        return await Reporter.step(`Click on the Enable button`, async () => {
+        return await this.click(this.locators.enableBtn);
+        });
     }
 
      async getBtnTxtInInputSection() {
@@ -242,7 +252,9 @@ class DynamicControlsPage extends BasePage {
     }
 
     async enterValueIntoInputField(value) {
+        return await Reporter.step(`Enter the value '${value}' into the input field`, async () => {
         return await this.type(this.locators.inputField, value);
+        });
     }
 
     async getEnteredTextFromInputField() {
@@ -250,7 +262,9 @@ class DynamicControlsPage extends BasePage {
     }
 
     async clickOnDisableBtn() {
-        return await this.click(this.locators.disableBtn)
+        return await Reporter.step(`Click on the Disable button`, async () => {
+        return await this.click(this.locators.disableBtn);
+        });
     }
 
      async isBtnTxtChangedFromDisableToEnable() {
@@ -279,8 +293,10 @@ class DynamicControlsPage extends BasePage {
     }
 
     async focusCheckbox() {
+        await Reporter.step(`Navigate to the Checkbox via Tab key`, async () => {
         const targetCheckbox = await this.find(this.locators.checkboxForClick);
         return await this.focusElementByTab(targetCheckbox, 10);
+        });
     }
 
     async isChedckboxFocused() {
@@ -289,12 +305,14 @@ class DynamicControlsPage extends BasePage {
     }
 
     async pressSpaceToCheckUncheckCheckbox() {
-        return await this.pressKey(this.locators.checkboxForClick, Key.SPACE);
+        return await this.pressKey(this.locators.checkboxForClick, Key.SPACE, "to change the Checkbox state");
     }
 
     async focusRemoveBtn() {
+        await Reporter.step(`Navigate to the Remove button via Tab key`, async () => {
         const targetRemoveBtn = await this.find(this.locators.removeBtn);
         return await this.focusElementByTab(targetRemoveBtn, 10);
+        });
     }
 
     async isRemoveBtnFocused() {
@@ -303,12 +321,14 @@ class DynamicControlsPage extends BasePage {
     }
 
      async pressEnterOnRemoveBtn() {
-        return await this.pressKey(this.locators.removeBtn, Key.ENTER);
+        return await this.pressKey(this.locators.removeBtn, Key.ENTER, "on Remove button");
     }
 
      async focusAddBtn() {
+        await Reporter.step(`Navigate to the Add button via Tab key`, async () => {
         const targetAddBtn = await this.find(this.locators.addBtn);
         return await this.focusElementByTab(targetAddBtn, 10);
+        });
     }
 
     async isAddBtnFocused() {
@@ -317,12 +337,14 @@ class DynamicControlsPage extends BasePage {
     }
 
     async pressEnterOnAddBtn() {
-        return await this.pressKey(this.locators.addBtn, Key.ENTER);
+        return await this.pressKey(this.locators.addBtn, Key.ENTER, "on Add button");
     }
 
     async focusEnableBtn() {
+        await Reporter.step(`Navigate to the Enable button via Tab key`, async () => {
         const targetEnableBtn = await this.find(this.locators.enableBtn);
         return await this.focusElementByTab(targetEnableBtn, 10);
+        });
     }
 
     async isEnableBtnFocused() {
@@ -331,12 +353,14 @@ class DynamicControlsPage extends BasePage {
     }
 
     async pressEnterOnEnableBtn() {
-        return await this.pressKey(this.locators.enableBtn, Key.ENTER);
+        return await this.pressKey(this.locators.enableBtn, Key.ENTER, "on Enable button");
     }
 
     async focusInputField() {
+        await Reporter.step(`Navigate to the Input field via Tab key`, async () => {
         const targetInputField = await this.find(this.locators.inputField);
         return await this.focusElementByTab(targetInputField, 10);
+        });
     }
 
     async isInputFieldFocused() {
@@ -345,8 +369,10 @@ class DynamicControlsPage extends BasePage {
     }
 
     async focusDisableBtn() {
+        await Reporter.step(`Navigate to the Disable button via Tab key`, async () => {
         const targetDisableBtn = await this.find(this.locators.disableBtn);
         return await this.focusElementByTab(targetDisableBtn, 10);
+        });
     }
 
     async isDisableBtnFocused() {
@@ -355,7 +381,7 @@ class DynamicControlsPage extends BasePage {
     }
 
     async pressEnterOnDisableBtn() {
-        return await this.pressKey(this.locators.disableBtn, Key.ENTER);
+        return await this.pressKey(this.locators.disableBtn, Key.ENTER, "on Disable button");
     }
 
 
