@@ -138,6 +138,12 @@ class BasePage{
         return element;
     }
 
+    async refreshPage() {
+        await Reporter.step("Refresh the page", async () => {
+            await this.driver.navigate().refresh()
+        });
+    }
+
     
     
 

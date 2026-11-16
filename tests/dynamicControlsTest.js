@@ -6,6 +6,7 @@ const DynamicControlsData = require('../testData/dynamicControlsData');
 const Reporter = require("../utils/reporter");
 const { allure } = require("allure-mocha/runtime");
 
+
 describe.only("Dynamic Controls test suite", function() {
     let driver;
     let homePage; 
@@ -163,7 +164,7 @@ assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The ch
 assert.strictEqual(await dynamicControlsPage.getAmountOfDisplayedTxtFromChekbox(), 3, `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 3 times at the page`);
 });
 
-it.only("TC42 - Enable and disable the Input field", async function() {
+it("TC42 - Enable and disable the Input field", async function() {
 await Reporter.step(`Observe the Chekbox initial state`, async () => {
 assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), DynamicControlsData.INPUT_FIELD_INITIAL_STATE, "The initial state of the input field should be disabled");
 });
@@ -182,9 +183,8 @@ it("TC43 - Verify checkbox section state after refresh", async function() {
 await dynamicControlsPage.clickOnRemoveBtn();
 await verifyStateAfterRemove();
 
-await Reporter.step("Refresh the page", async () => {
-await driver.navigate().refresh();
-});
+await dynamicControlsPage.refreshPage()
+
 assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The Checkbox shold be displayed after refresh the page");
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox = unchecked should be displayed");
 assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button title "${DynamicControlsData.REMOVE_BTN_TITLE}" should be displayed`);
@@ -199,9 +199,8 @@ await dynamicControlsPage.clickOnAddBtn();
 await verifyStateAfterAdd();
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, `The checkbox should have unchecked state`);
 
-await Reporter.step("Refresh the page", async () => {
-await driver.navigate().refresh();
-});
+await dynamicControlsPage.refreshPage();
+
 assert.strictEqual(await dynamicControlsPage.isChecboxDisplayed(), true, "The Checkbox shold be displayed after refresh the page");
 assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox = unchecked should be displayed");
 assert.strictEqual(await dynamicControlsPage.isRemoveButotnDisplayed(), true, `The button title "${DynamicControlsData.REMOVE_BTN_TITLE}" should be displayed`);
@@ -211,9 +210,8 @@ it("TC44 - Verify Iput field section state after refresh", async function() {
 await dynamicControlsPage.clickOnEnableBtn();
 await verifyStateAfterEnable();
 
-await Reporter.step("Refresh the page", async () => {
-await driver.navigate().refresh();
-});
+await dynamicControlsPage.refreshPage();
+
 assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should be disabled`);
 assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The button title ${DynamicControlsData.ENABLE_BTN_TITLE}" should be displayed`);
 
@@ -225,9 +223,8 @@ assert.strictEqual(await dynamicControlsPage.isCorrectEnteredTextDisplayed(Dynam
 await dynamicControlsPage.clickOnDisableBtn();
 await verifyStateAfterDisable();
 
-await Reporter.step("Refresh the page", async () => {
-await driver.navigate().refresh();
-});
+await dynamicControlsPage.refreshPage();
+
 assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), false, `The state of the input field should be disabled`);
 assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The button title "${DynamicControlsData.ENABLE_BTN_TITLE}" should be displayed`);
 });
