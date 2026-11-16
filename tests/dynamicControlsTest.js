@@ -7,7 +7,7 @@ const Reporter = require("../utils/reporter");
 const { allure } = require("allure-mocha/runtime");
 
 
-describe("Dynamic Controls test suite", function() {
+describe("[Regression] Dynamic Controls test suite", function() {
     let driver;
     let homePage; 
     /**@type {DynamicControlsPage} */
@@ -57,7 +57,7 @@ afterEach(async function(){
         assert.strictEqual(await dynamicControlsPage.isMsgAfterDisableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_DISABLE}" should appeared`);
     }
 
-it("TC38 - Verify page content", async function() {
+it("[Smoke] TC38 - Verify page content", async function() {
     assert.strictEqual(await driver.getCurrentUrl(), "https://the-internet.herokuapp.com/dynamic_controls")
     assert.strictEqual(await dynamicControlsPage.isSpecificPageLoaded(), true, "The page is not completely loaded");
     await Reporter.step(`Observe the header visibility`, async () => {
@@ -95,7 +95,7 @@ it("TC38 - Verify page content", async function() {
     });
 });
 
-it("TC39 - Verify checkbox initial state and changes", async function() {
+it("[Smoke] TC39 - Verify checkbox initial state and changes", async function() {
     await Reporter.step(`Observe the Chekbox initial state`, async () => {
     assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox is wrong");
     });
@@ -105,7 +105,7 @@ it("TC39 - Verify checkbox initial state and changes", async function() {
     assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not unchecked after second click");
 });
 
-it("TC40 - Remove and add checkbox", async function() {
+it("[Smoke] TC40 - Remove and add checkbox", async function() {
     await Reporter.step(`Observe the Chekbox initial state`, async () => {
     assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, "The initial state of the checkbox is wrong");
     });
@@ -117,7 +117,7 @@ it("TC40 - Remove and add checkbox", async function() {
     assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), false, "The checkbox is not uncheked");
 });
 
-it("TC41 - Remove and add checked checkbox", async function() {
+it("[Smoke] TC41 - Remove and add checked checkbox", async function() {
     this.timeout(31000);
     await Reporter.step(`Observe the Chekbox initial state`, async () => {
     assert.strictEqual(await dynamicControlsPage.isCheckboxChecked(), DynamicControlsData.CHECKBOX_INITIAL_STATE, `The initial state of the checkbox should be unchecked`);
@@ -155,7 +155,7 @@ it("TC41 - Remove and add checked checkbox", async function() {
     `The text "${DynamicControlsData.CHECKBOX_TITLE}" should be displayed 3 times at the page`);
 });
 
-it("TC42 - Enable and disable the Input field", async function() {
+it("[Smoke] TC42 - Enable and disable the Input field", async function() {
     await Reporter.step(`Observe the Chekbox initial state`, async () => {
     assert.strictEqual(await dynamicControlsPage.isInputFieldEnabled(), DynamicControlsData.INPUT_FIELD_INITIAL_STATE, "The initial state of the input field should be disabled");
     });
