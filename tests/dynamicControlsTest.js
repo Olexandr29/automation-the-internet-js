@@ -7,7 +7,7 @@ const Reporter = require("../utils/reporter");
 const { allure } = require("allure-mocha/runtime");
 
 
-describe.only("Dynamic Controls test suite", function() {
+describe("Dynamic Controls test suite", function() {
     let driver;
     let homePage; 
     /**@type {DynamicControlsPage} */
