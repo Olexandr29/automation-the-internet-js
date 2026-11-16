@@ -10,7 +10,6 @@ class BasePage{
         this.driver = driver;
         this.wait = (condition, timeout = DEFAULT_TIMEOUT_MS) => 
             this.driver.wait(condition, timeout);
-
     }
 
     async find(locator) {
@@ -31,22 +30,35 @@ class BasePage{
         return elements[number - 1];
     }
     
-    async click(locator) {
+    async click(locator, text = "") {
         const element = await this.find(locator);
-        await element.click()
+        if(text) {
+            await Reporter.step(`${text}`, async () => {
+                await element.click()
+            });
+        } else {
+            await element.click()
+        }
         return element;
     }
 
-    async type(locator, text) {
+    async type(locator, value = "***", field ) {
+        return await Reporter.step(`Enter the value '${value}' into the ${field} field`, async () => {
         const element = await this.find(locator);
         await element.clear();
-        await element.sendKeys(text);
+        await element.sendKeys(value);
         return element;
+        });
     }
 
     async getText(locator) {
         const element = await this.find(locator);
         return await element.getText();
+    }
+
+    async getAttributeValue(locator) {
+        const webElement = await this.find(locator);
+        return await webElement.getAttribute("value")
     }
 
     async isElementDisplayed(locator) {
@@ -59,12 +71,16 @@ class BasePage{
         }    
     }
 
+    async isSpecificPageLoaded(){
+        return await this.driver.executeScript("return document.readyState === 'complete';");
+    }
+    
     async waitForUrlContains(path) {
         await this.wait(until.urlContains(path));
     }
 
-    async pressKey(locator, specificKey) {
-        await Reporter.step(`Press ${getKeyName(specificKey)} key`, async () => {
+    async pressKey(locator, specificKey, onWebelement = " ") {
+        await Reporter.step(`Press ${getKeyName(specificKey)} key ${onWebelement}`, async () => {
         const element = await this.find(locator);
         await element.sendKeys(specificKey);
         });
@@ -92,7 +108,43 @@ class BasePage{
         return await Reporter.step(`Observe the ${elementName} is displayed correctly`, async () => {
             return await this.driver.executeScript("return arguments[0].complete && arguments[0].naturalWidth > 0;", targetElement);
         });
-        }
+    }
+
+    async waitUntilElementAbsent(locator) {
+        return await this.wait(async driver => {
+            const elements = await driver.findElements(locator);
+            if (elements.length === 0) {
+                return true;
+            }
+            try {
+                return !(await elements[0].isDisplayed());
+            } catch (error) {
+                if (error.name === "StaleElementReferenceError") {
+                    return true;
+                } throw error;
+            }
+        })
+    }
+
+    async waitUntilElementIsEnabled(locator) {
+        const element = await this.find(locator);
+        await this.wait(until.elementIsEnabled(element));
+        return element;
+    }
+
+    async waitUntilElementIsDisabled(locator) {
+        const element = await this.find(locator);
+        await this.wait(until.elementIsDisabled(element));
+        return element;
+    }
+
+    async refreshPage() {
+        await Reporter.step("Refresh the page", async () => {
+            await this.driver.navigate().refresh()
+        });
+    }
+
+    
     
 
 
