@@ -80,7 +80,8 @@ let homePage, loginPage, securePage;
         assert(actualRes.includes(LoginData.expectedLoginLogoutMsg), `User should not be able to access the Secure Area and should got the message - ${LoginData.expectedLoginLogoutMsg} but got - ${actualRes}` );
         assert.strictEqual(await driver.getCurrentUrl(), LoginData.loginPageURL, `User should remains on the Login page but now on ${await driver.getCurrentUrl()}`);
         assert.strictEqual(await loginPage.isLoginBtnDisplayed(), true, "The Login button should be displayed")
-    console.log(`TC9 execution time: ${Date.now() - startTime} ms`);
+            await Reporter.step(`TC9 execution time: ${Date.now() - startTime} ms`, async () => {
+            });
     });
 
     it("TC20 - Password is masked", async function() {
