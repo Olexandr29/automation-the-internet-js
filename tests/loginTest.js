@@ -64,7 +64,7 @@ let homePage, loginPage, securePage;
         assert.strictEqual(await loginPage.isLoginBtnDisplayed(), true, "The login button is not displayed");
     });
 
-    it.only("[Smoke] TC9 - User cannot access the Secure Area after logout", async function(){
+    it("[Smoke] TC9 - User cannot access the Secure Area after logout", async function(){
         const startTime = Date.now();
         this.timeout(31000)
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
