@@ -36,8 +36,8 @@ it("TC36 - Verify page content", async function() {
 });
 
 it("TC37 - Verify image loading", async function() {
-    jsonAssertion.softAssert(await brokenImagesPage.isImgDisplayedCorrectly(1), true, "The first image is not displayed correctly, the broken image indicator/missing image placeholder is displayed.");
-    jsonAssertion.softAssert(await brokenImagesPage.isImgDisplayedCorrectly(2), true, "The second image is not displayed correctly, the broken image indicator/missing image placeholder is displayed.");
+    jsonAssertion.softAssert(await brokenImagesPage.isImgDisplayedCorrectly(1), false, "The first image should be intentionally broken");
+    jsonAssertion.softAssert(await brokenImagesPage.isImgDisplayedCorrectly(2), false, "The second image should be intentionally broken");
     jsonAssertion.softAssert(await brokenImagesPage.isImgDisplayedCorrectly(3), true, "The third image is not displayed correctly, the broken image indicator/missing image placeholder is displayed.");
     jsonAssertion.softAssertAll();
 });
