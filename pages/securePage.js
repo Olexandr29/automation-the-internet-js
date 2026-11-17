@@ -26,10 +26,14 @@ class SecurePage extends BasePage {
 
     async logout() {
         const LoginPage = require('../pages/loginPage')
+        const startTime = Date.now();
         await Reporter.step("Click the Logout button", async () => {
         await this.click(this.locators.logoutBtn);
         });
+        console.log("URL immediately after Logout:", await this.driver.getCurrentUrl());
         await this.waitForUrlContains("/login");
+        console.log("URL after waiting for Login page:", await this.driver.getCurrentUrl());
+        console.log(`Logout execution time: ${Date.now() - startTime} ms`);
         return new LoginPage(this.driver);
     }
 
