@@ -29,7 +29,10 @@ class SecurePage extends BasePage {
         await Reporter.step("Click the Logout button", async () => {
         await this.click(this.locators.logoutBtn);
         });
+        console.log("URL immediately after Logout:", await this.driver.getCurrentUrl());
         await this.waitForUrlContains("/login");
+        console.log("URL after waiting for Login page:", await this.driver.getCurrentUrl());
+
         return new LoginPage(this.driver);
     }
 
