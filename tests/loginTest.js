@@ -69,10 +69,11 @@ let homePage, loginPage, securePage;
         this.timeout(31000)
         securePage = await loginPage.successfulLogin(LoginData.validUsername, LoginData.validPassword);
         loginPage = await securePage.logout();
-        assert(await loginPage.isLoginBtnDisplayed(), true, "the login button should be displayed");
+        assert.strictEqual(await loginPage.isLoginBtnDisplayed(), true, "the login button should be displayed");
         await Reporter.step("Navigate Back", async () => {
         await driver.navigate().back();
         });
+        console.log("URL after Back:", await driver.getCurrentUrl());
         await Reporter.step("Refresh the page", async () => {
         await driver.navigate().refresh();
         });
