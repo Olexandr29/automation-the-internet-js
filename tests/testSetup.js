@@ -2,6 +2,7 @@ const { Builder } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const HomePage = require('../pages/homePage');
 const { allure } = require('allure-mocha/runtime');
+const {BASE_URL} = require('../config/testConfig');
 
 
 async function createDriver() {
@@ -16,7 +17,7 @@ async function createDriver() {
     .forBrowser("chrome")
     .setChromeOptions(options)
     .build();
-    await driver.get(HomePage.URL);
+    await driver.get(BASE_URL);
     return driver;
     }
 

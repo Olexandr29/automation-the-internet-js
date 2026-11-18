@@ -24,7 +24,7 @@ const loginTestData = [
 ];
 
 
-describe("[Regression] Login Test suit", function() {
+describe.only("[Regression] Login Test suit", function() {
 let driver;
 let homePage, loginPage, securePage;
 

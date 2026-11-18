@@ -1,3 +1,4 @@
+const {BASE_URL} = require('../config/testConfig');
 
 const LoginData = {
     validUsername : "tomsmith",
@@ -12,8 +13,8 @@ const LoginData = {
     expectedAlertPasswordMsg : "Your password is invalid!",
     expectedLogoutMsg : "You logged out of the secure area!",
     expectedLoginLogoutMsg : "You must login to view the secure area!",
-    loginPageURL: "https://the-internet.herokuapp.com/login",
-    securePageURL: "https://the-internet.herokuapp.com/secure"
+    loginPageURL: `${BASE_URL}login`,
+    securePageURL: `${BASE_URL}secure`
 
 }
 module.exports = LoginData
