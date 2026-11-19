@@ -58,7 +58,7 @@ afterEach(async function(){
     }
 
 it("[Smoke] TC38 - Verify page content", async function() {
-    assert.strictEqual(await driver.getCurrentUrl(), "https://the-internet.herokuapp.com/dynamic_controls")
+    assert.strictEqual(await driver.getCurrentUrl(), DynamicControlsData.URL);
     assert.strictEqual(await dynamicControlsPage.isSpecificPageLoaded(), true, "The page is not completely loaded");
     await Reporter.step(`Observe the header visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isHeaderDisplayed(), true, `The page header '${DynamicControlsData.HEADER}' is not displayed`);
