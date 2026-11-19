@@ -10,9 +10,6 @@ class BrokenImagesPage extends BasePage {
         this.locators = {
             headerLocator : By.tagName("h3"),
             imagesLocator : By.xpath("//div[@class='example']//img"),
-            footerLocator : By.xpath("//div[@style='text-align: center;']"),
-            linkLocator : By.xpath("//a[@target='_blank']")
-
         }
     }
 
@@ -32,18 +29,6 @@ class BrokenImagesPage extends BasePage {
             return images.length
         });
     }
-
-    async isFooterDisplayed() {
-        return await Reporter.step(`Observe the ${BrokenImagesData.FOOTER} footer is visible`, async () => {
-            return this.isElementDisplayed(this.locators.footerLocator);
-        });
-        }
-
-    async isLinkDisplayed() {
-        return await Reporter.step(`Observe the ${BrokenImagesData.LINK} link is visible`, async () => {
-            return this.isElementDisplayed(this.locators.linkLocator);
-        });
-        }
 
     async isImgDisplayedCorrectly(ImgNumber) {
             const targetImg = this.findElementsByNumber(this.locators.imagesLocator, ImgNumber);
