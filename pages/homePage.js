@@ -7,7 +7,6 @@ const BrokenImagesPage = require('./brokenImagesPage');
 const DynamicControlsPage = require('./dynamicControlsPage')
 
 class HomePage extends BasePage {
-    static URL = "https://the-internet.herokuapp.com/";
 
     constructor(driver){
         super(driver);

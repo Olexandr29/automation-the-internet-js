@@ -1,5 +1,7 @@
+const {BASE_URL} = require('../config/testConfig');
+
 const DynamicControlsData = {
-    URL : "https://the-internet.herokuapp.com/dynamic_controls",
+    URL : `${BASE_URL}dynamic_controls`,
     HEADER : "Dynamic Controls",
     PARAGRAPH : "This example demonstrates when elements (e.g., checkbox, input field, etc.) are changed asynchronously.",
     SUBHEADER_OF_CHECKBOX_SECTION : "Remove/add",

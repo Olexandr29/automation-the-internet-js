@@ -5,6 +5,7 @@ const assert = require('assert');
 const { createDriver, closeDriver } = require("../tests/testSetup");
 const Reporter = require("../utils/reporter");
 const { allure } = require("allure-mocha/runtime");
+const { BASE_URL } = require('../config/testConfig');
 
 
 describe("[Regression] Dropdown test suite", function() {
@@ -127,13 +128,13 @@ let homePage, dropdownPage;
         assert.strictEqual(await dropdownPage.getSelectedDropdownText(), DropdownData.OPTION_DEFAULT, `The default value "${DropdownData.OPTION_DEFAULT}" should be selected`);
     });
 
-    it("TC30 - Verify browser Back and Forward navigation behaviour", async function () {
+    it.only("TC30 - Verify browser Back and Forward navigation behaviour", async function () {
         await dropdownPage.selectOption(DropdownData.OPTION_2);
         assert.strictEqual(await dropdownPage.getSelectedDropdownText(), DropdownData.OPTION_2, `The ${DropdownData.OPTION_2} is not selected`);
         await Reporter.step("Navigate Back", async () => {
         await driver.navigate().back();
         });
-        assert.strictEqual(await driver.getCurrentUrl(), HomePage.URL, "The Home page is not opened");
+        assert.strictEqual(await driver.getCurrentUrl(), BASE_URL, "The Home page is not opened");
         homePage = new HomePage(driver);
         assert.strictEqual(await homePage.isDropdownLinkVisible(), true, "The Dropdown link is not visible");
         await Reporter.step("Navigate Forward", async () => {
