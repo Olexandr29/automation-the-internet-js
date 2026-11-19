@@ -57,7 +57,7 @@ afterEach(async function(){
         assert.strictEqual(await dynamicControlsPage.isMsgAfterDisableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_DISABLE}" should appeared`);
     }
 
-it("[Smoke] TC38 - Verify page content", async function() {
+it.only("[Smoke] TC38 - Verify page content", async function() {
     assert.strictEqual(await driver.getCurrentUrl(), DynamicControlsData.URL);
     assert.strictEqual(await dynamicControlsPage.isSpecificPageLoaded(), true, "The page is not completely loaded");
     await Reporter.step(`Observe the header visibility`, async () => {
@@ -85,13 +85,13 @@ it("[Smoke] TC38 - Verify page content", async function() {
     assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The '${DynamicControlsData.ENABLE_BTN_TITLE}' button is not displayed`);
     });
     await Reporter.step(`Observe the footer visibility`, async () => {
-    assert.strictEqual(await dynamicControlsPage.isFooterDisplayed(), true, `The footer '${DynamicControlsData.FOOTER}' is not displayed`);
+    assert.strictEqual(await dynamicControlsPage.footer.isFooterDisplayed(), true, `The footer '${DynamicControlsData.FOOTER}' is not displayed`);
     });
     await Reporter.step(`Observe the "${DynamicControlsData.SAUCE_LABS_TEXT}" link visibility`, async () => {
-    assert.strictEqual(await dynamicControlsPage.isSeleniumLinkDisplayed(), true, `The link ${DynamicControlsData.SELENIUM_TEXT} is not displayed`);
+    assert.strictEqual(await dynamicControlsPage.footer.isSeleniumLinkDisplayed(), true, `The link ${DynamicControlsData.SELENIUM_TEXT} is not displayed`);
     });
     await Reporter.step(`Observe the "${DynamicControlsData.SELENIUM_TEXT}" link visibility`, async () => {
-    assert.strictEqual(await dynamicControlsPage.isSauceLabsLinkDisplayed(), true, `The link ${DynamicControlsData.SAUCE_LABS_TEXT} is not displayed`);
+    assert.strictEqual(await dynamicControlsPage.footer.isSauceLabsLinkDisplayed(), true, `The link ${DynamicControlsData.SAUCE_LABS_TEXT} is not displayed`);
     });
 });
 
