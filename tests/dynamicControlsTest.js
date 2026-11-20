@@ -5,7 +5,7 @@ const assert = require('assert');
 const DynamicControlsData = require('../testData/dynamicControlsData');
 const Reporter = require("../utils/reporter");
 const { allure } = require("allure-mocha/runtime");
-const FooterData = require("../testData/footerData");
+// const FooterData = require("../testData/footerData");
 const { verifyFooter } = require('../tests/helpers/footerAssertions');
 
 describe("[Regression] Dynamic Controls test suite", function() {
@@ -58,7 +58,7 @@ afterEach(async function(){
         assert.strictEqual(await dynamicControlsPage.isMsgAfterDisableDisplayed(), true, `The text "${DynamicControlsData.MESSAGE_AFTER_DISABLE}" should appeared`);
     }
 
-it.only("[Smoke] TC38 - Verify page content", async function() {
+it("[Smoke] TC38 - Verify page content", async function() {
     assert.strictEqual(await driver.getCurrentUrl(), DynamicControlsData.URL);
     assert.strictEqual(await dynamicControlsPage.isSpecificPageLoaded(), true, "The page is not completely loaded");
     await Reporter.step(`Observe the header visibility`, async () => {

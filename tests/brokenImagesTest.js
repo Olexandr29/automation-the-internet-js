@@ -6,6 +6,8 @@ const Reporter = require('../utils/reporter');
 const {allure} = require('allure-mocha/runtime');
 const jsonAssertion = require('soft-assert');
 const BrokenImagesData = require('../testData/brokenImagesData');
+const { verifyFooter } = require('../tests/helpers/footerAssertions');
+
 
 describe("[Regression] Broken Images test suite", function () {
     let driver;
@@ -14,9 +16,7 @@ describe("[Regression] Broken Images test suite", function () {
 beforeEach(async function() {
     await allure.feature("Broken Images");
     driver = await createDriver();
-    await Reporter.step("Open Home page", async () => {
     homePage = new HomePage(driver);
-    });
     await Reporter.step("Open Broken Images page", async () => {
     brokenImagesPage = await homePage.openBrokenImagesPage();
     });
@@ -31,8 +31,7 @@ it("TC36 - Verify page content", async function() {
     assert.strictEqual(await brokenImagesPage.isBrokenImagesPageLoaded(), true, "The document.readyState is not complete");
     assert.strictEqual(await brokenImagesPage.isHeaderDisplayed(), true, `The ${BrokenImagesData.HEADER} header is not displayed`);
     assert.strictEqual(await brokenImagesPage.getImagesAmount(), BrokenImagesData.IMG_AMOUNT, `The amount of 'img' files are not equal ${BrokenImagesData.IMG_AMOUNT}`);
-    assert.strictEqual(await brokenImagesPage.isFooterDisplayed(), true, `The footer text ${BrokenImagesData.FOOTER} is not displayed`);
-    assert.strictEqual(await brokenImagesPage.isLinkDisplayed(), true, `The ${BrokenImagesData.LINK} link is not displayed`);
+    await verifyFooter(brokenImagesPage.footer);
 });
 
 it("TC37 - Verify image loading", async function() {

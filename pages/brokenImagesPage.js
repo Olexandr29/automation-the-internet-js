@@ -2,10 +2,13 @@ const BasePage = require('./basePage');
 const { By } = require('selenium-webdriver');
 const BrokenImagesData = require('../testData/brokenImagesData');
 const Reporter = require('../utils/reporter');
+const FooterComponent = require('../pages/components/footerComponent');
 
 class BrokenImagesPage extends BasePage {
     constructor(driver) {
         super(driver);
+
+        this.footer = new FooterComponent(driver);
 
         this.locators = {
             headerLocator : By.tagName("h3"),
