@@ -30,9 +30,6 @@ class DynamicControlsPage extends BasePage {
             enableBtn : By.xpath("//button[text()='Enable']"),
             disableBtn : By.xpath("//button[text()='Disable']"),
             messageInInputSection : By.xpath("//form[@id='input-example']//p[@id='message']")
-            // footer : By.xpath("//div[@style='text-align: center;']"),
-            // seleniumLink : By.linkText("Elemental Selenium"),
-            // sauceLabsLnik : By.linkText("Sauce Labs")
         }
 }
 
@@ -113,27 +110,6 @@ class DynamicControlsPage extends BasePage {
             (await this.getText(this.locators.buttonInInputSection) === DynamicControlsData.ENABLE_BTN_TITLE)
         )
     } 
-
-    // async isFooterDisplayed() {
-    //     return (
-    //         await this.isElementDisplayed(this.locators.footer) &&
-    //         (await this.getText(this.locators.footer) === DynamicControlsData.FOOTER)
-    //     )
-    // }
-
-    // async isSeleniumLinkDisplayed() {
-    //     return (
-    //         await this.isElementDisplayed(this.locators.seleniumLink) &&
-    //         (await this.getText(this.locators.seleniumLink) === DynamicControlsData.SELENIUM_TEXT)
-    //     )
-    // }
-
-    // async isSauceLabsLinkDisplayed() {
-    //     return (
-    //         await this.isElementDisplayed(this.locators.sauceLabsLnik) &&
-    //         (await this.getText(this.locators.sauceLabsLnik) === DynamicControlsData.SAUCE_LABS_TEXT)
-    //     )
-    // }
 
     async getWaitText() {
         return await this.getText(this.locators.waitTxt)

@@ -1,5 +1,4 @@
 const {By} = require('selenium-webdriver');
-const DynamicControlsData = require("../../testData/dynamicControlsData");
 const BasePage = require("../basePage");
 const FooterData = require("../../testData/footerData");
 const Reporter = require("../../utils/reporter");
@@ -11,7 +10,7 @@ class FooterComponent extends BasePage {
         this.locators = {
         footer : By.xpath("//div[@style='text-align: center;']"),
         seleniumLink : By.linkText("Elemental Selenium"),
-        sauceLabsLnik : By.linkText("Sauce Labs")
+        sauceLabsLink : By.linkText("Sauce Labs")
         }
     }
 
@@ -23,12 +22,6 @@ class FooterComponent extends BasePage {
         )
     });
     }
-
-    async isLinkDisplayed() {
-        return await Reporter.step(`Observe is the '${FooterData.SELENIUM_TEXT}' link visible`, async () => {
-            return this.isElementDisplayed(this.locators.linkLocator);
-        });
-        }
 
     async isSeleniumLinkDisplayed() {
         return await Reporter.step(`Observe is the '${FooterData.SELENIUM_TEXT}' link visible`, async () => {
@@ -42,12 +35,11 @@ class FooterComponent extends BasePage {
     async isSauceLabsLinkDisplayed() {
         return await Reporter.step(`Observe is the '${FooterData.SAUCE_LABS_TEXT}' link visible`, async () => {
         return (
-            await this.isElementDisplayed(this.locators.sauceLabsLnik) &&
-            (await this.getText(this.locators.sauceLabsLnik) === FooterData.SAUCE_LABS_TEXT)
+            await this.isElementDisplayed(this.locators.sauceLabsLink) &&
+            (await this.getText(this.locators.sauceLabsLink) === FooterData.SAUCE_LABS_TEXT)
         )
     });
     }
-
 
 
 }
