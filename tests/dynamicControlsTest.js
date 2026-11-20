@@ -5,7 +5,8 @@ const assert = require('assert');
 const DynamicControlsData = require('../testData/dynamicControlsData');
 const Reporter = require("../utils/reporter");
 const { allure } = require("allure-mocha/runtime");
-
+// const FooterData = require("../testData/footerData");
+const { verifyFooter } = require('../tests/helpers/footerAssertions');
 
 describe("[Regression] Dynamic Controls test suite", function() {
     let driver;
@@ -84,15 +85,7 @@ it("[Smoke] TC38 - Verify page content", async function() {
     await Reporter.step(`Observe the "${DynamicControlsData.ENABLE_BTN_TITLE}" button visibility`, async () => {
     assert.strictEqual(await dynamicControlsPage.isEnableButtonDisplayed(), true, `The '${DynamicControlsData.ENABLE_BTN_TITLE}' button is not displayed`);
     });
-    await Reporter.step(`Observe the footer visibility`, async () => {
-    assert.strictEqual(await dynamicControlsPage.isFooterDisplayed(), true, `The footer '${DynamicControlsData.FOOTER}' is not displayed`);
-    });
-    await Reporter.step(`Observe the "${DynamicControlsData.SAUCE_LABS_TEXT}" link visibility`, async () => {
-    assert.strictEqual(await dynamicControlsPage.isSeleniumLinkDisplayed(), true, `The link ${DynamicControlsData.SELENIUM_TEXT} is not displayed`);
-    });
-    await Reporter.step(`Observe the "${DynamicControlsData.SELENIUM_TEXT}" link visibility`, async () => {
-    assert.strictEqual(await dynamicControlsPage.isSauceLabsLinkDisplayed(), true, `The link ${DynamicControlsData.SAUCE_LABS_TEXT} is not displayed`);
-    });
+    await verifyFooter(dynamicControlsPage.footer);
 });
 
 it("[Smoke] TC39 - Verify checkbox initial state and changes", async function() {

@@ -128,7 +128,7 @@ let homePage, dropdownPage;
         assert.strictEqual(await dropdownPage.getSelectedDropdownText(), DropdownData.OPTION_DEFAULT, `The default value "${DropdownData.OPTION_DEFAULT}" should be selected`);
     });
 
-    it.only("TC30 - Verify browser Back and Forward navigation behaviour", async function () {
+    it("TC30 - Verify browser Back and Forward navigation behaviour", async function () {
         await dropdownPage.selectOption(DropdownData.OPTION_2);
         assert.strictEqual(await dropdownPage.getSelectedDropdownText(), DropdownData.OPTION_2, `The ${DropdownData.OPTION_2} is not selected`);
         await Reporter.step("Navigate Back", async () => {
